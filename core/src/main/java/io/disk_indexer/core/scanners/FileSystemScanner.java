@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+
 import io.disk_indexer.core.dao.exceptions.EntryListenerFailedException;
 import io.disk_indexer.core.dao.exceptions.ScannerFailedException;
 import io.disk_indexer.core.dao.exceptions.StreamListenerFailedException;
@@ -14,36 +15,39 @@ public class FileSystemScanner extends Scanner {
 	@Override
 	public void scan(String path) throws ScannerFailedException {
 		try {
-			invokeEntryListenerOnStart();		
-			
+			invokeEntryListenerOnStart();
+
 			doScan(null, path);
-			
-			invokeEntryListenerOnComplete();			
+
+			invokeEntryListenerOnComplete();
 		} catch (EntryListenerFailedException | StreamListenerFailedException e) {
 			throw new ScannerFailedException(e);
 		}
-	}	
-	
+	}
+
 	private void doScan(Entry parentEntry, String path) throws EntryListenerFailedException, StreamListenerFailedException {
 		File root = new File(path);
-		Entry rootEntry;		
-						
+		Entry rootEntry;
+
 		if (root.isDirectory()) {
 			rootEntry = new Entry(EntryTypes.Directory);
-			 
-			for (File child : root.listFiles()) {
-				doScan(rootEntry, child.getPath());				
-			}								
 		} else {
 			rootEntry = new Entry(EntryTypes.File);
-		}			
-		
+		}
+
 		rootEntry.setName(root.getName());
 		rootEntry.setModificationDate(root.lastModified());
 		rootEntry.setSize(root.length());
+		rootEntry.setParentEntry(parentEntry);
 
 		invokeEntryListeners(rootEntry);
 		invokeStreamListeners(rootEntry, path);
+
+		if (root.isDirectory()) {
+			for (File child : root.listFiles()) {
+				doScan(rootEntry, child.getPath());
+			}
+		}
 	}
 
 	@Override
