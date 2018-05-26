@@ -1,12 +1,10 @@
 package io.disk_indexer.core.scanners;
 
 import java.io.File;
-import java.sql.SQLException;
-
-import io.disk_indexer.core.dao.ConnectionManager;
+import java.io.InputStream;
 import io.disk_indexer.core.dao.exceptions.EntryListenerFailedException;
-import io.disk_indexer.core.dao.exceptions.PersistenceFailureException;
 import io.disk_indexer.core.dao.exceptions.ScannerFailedException;
+import io.disk_indexer.core.dao.exceptions.StreamListenerFailedException;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.EntryTypes;
 
@@ -19,12 +17,12 @@ public class FileSystemScanner extends Scanner {
 			doScan(null, path);
 			
 			invokeEntryListenerOnComplete();			
-		} catch (EntryListenerFailedException e) {
+		} catch (EntryListenerFailedException | StreamListenerFailedException e) {
 			throw new ScannerFailedException(e);
 		}
 	}	
 	
-	private void doScan(Entry parentEntry, String path) throws EntryListenerFailedException {
+	private void doScan(Entry parentEntry, String path) throws EntryListenerFailedException, StreamListenerFailedException {
 		File root = new File(path);
 		Entry rootEntry;		
 						
@@ -43,5 +41,12 @@ public class FileSystemScanner extends Scanner {
 		rootEntry.setSize(root.length());
 
 		invokeEntryListeners(rootEntry);
+		invokeStreamListeners(rootEntry, path);
+	}
+
+	@Override
+	protected InputStream obtainStream(Object tag) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

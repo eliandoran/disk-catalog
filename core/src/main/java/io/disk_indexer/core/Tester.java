@@ -11,6 +11,7 @@ import io.disk_indexer.core.dao.impl.SqliteConnectionManager;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.scanners.BasicProgressTrackerEntryListener;
 import io.disk_indexer.core.scanners.FileSystemScanner;
+import io.disk_indexer.core.scanners.MetadataStreamListener;
 import io.disk_indexer.core.scanners.PersistanceEntryListener;
 
 public class Tester {
@@ -31,6 +32,7 @@ public class Tester {
 			FileSystemScanner scanner = new FileSystemScanner();			
 			scanner.addEntryListener(new PersistanceEntryListener(connectionManager));
 			scanner.addEntryListener(new BasicProgressTrackerEntryListener(System.out));
+			scanner.addStreamListener(new MetadataStreamListener());
 			scanner.scan("/run/media/elian/Elian D./Music");
 		} catch (ScannerFailedException e) {
 			e.printStackTrace();

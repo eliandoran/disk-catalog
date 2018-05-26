@@ -25,6 +25,10 @@ public class Entry {
 		
 		return childEntries;
 	}
+	
+	public EntryTypes getEntryType() {
+		return entryType;
+	}
 
 	public String getName() {
 		return name;
