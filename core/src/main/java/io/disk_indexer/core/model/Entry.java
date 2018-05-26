@@ -8,7 +8,11 @@ public class Entry {
 	
 	private String name;
 	
-	private List<Entry> childEntries;	
+	private long modificationDate;
+	
+	private long size;
+	
+	private List<Entry> childEntries;
 	
 	public Entry(EntryTypes entryType) {
 		this.entryType = entryType;
@@ -34,6 +38,22 @@ public class Entry {
 		this.name = name;
 	}
 	
+	public long getModificationDate() {
+		return modificationDate;
+	}
+
+	public void setModificationDate(long modificationDate) {
+		this.modificationDate = modificationDate;
+	}
+
+	public long getSize() {
+		return size;
+	}
+
+	public void setSize(long size) {
+		this.size = size;
+	}
+
 	public void addChildEntry(Entry child) {
 		if (childEntries == null) {
 			throw new IllegalStateException("Attempt to add a child entry to a non-container (i.e. not a directory).");

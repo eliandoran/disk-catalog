@@ -20,6 +20,8 @@ public class FileSystemScanner implements Scanner {
 			} else {
 				childEntry = new Entry(EntryTypes.File);
 				childEntry.setName(child.getName());
+				childEntry.setModificationDate(child.lastModified());
+				childEntry.setSize(child.length());
 			}
 			
 			rootEntry.addChildEntry(childEntry);
