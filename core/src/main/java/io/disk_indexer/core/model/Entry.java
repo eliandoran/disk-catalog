@@ -15,11 +15,7 @@ public class Entry {
 	private List<Entry> childEntries;
 	
 	public Entry(EntryTypes entryType) {
-		this.entryType = entryType;
-		
-		if (entryType == EntryTypes.Directory) {
-			childEntries = new LinkedList<>();
-		}
+		this.entryType = entryType;			
 	}
 	
 	public Iterable<Entry> getChildEntries() {
@@ -55,8 +51,12 @@ public class Entry {
 	}
 
 	public void addChildEntry(Entry child) {
-		if (childEntries == null) {
+		if (entryType != EntryTypes.Directory) {		
 			throw new IllegalStateException("Attempt to add a child entry to a non-container (i.e. not a directory).");
+		}
+		
+		if (childEntries == null) {
+			childEntries = new LinkedList<>();
 		}
 		
 		this.childEntries.add(child);
