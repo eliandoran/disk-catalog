@@ -2,13 +2,9 @@ package io.disk_indexer.core;
 
 import java.io.File;
 
-import io.disk_indexer.core.dao.ConnectionManager;
 import io.disk_indexer.core.dao.FileSystemConnectionManager;
-import io.disk_indexer.core.dao.exceptions.ConnectionFailedException;
-import io.disk_indexer.core.dao.exceptions.PersistenceFailureException;
 import io.disk_indexer.core.dao.exceptions.ScannerFailedException;
 import io.disk_indexer.core.dao.impl.SqliteConnectionManager;
-import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.scanners.BasicProgressTrackerEntryListener;
 import io.disk_indexer.core.scanners.FileSystemScanner;
 import io.disk_indexer.core.scanners.MetadataStreamListener;

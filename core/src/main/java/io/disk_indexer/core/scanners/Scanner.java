@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import io.disk_indexer.core.dao.exceptions.EntryListenerFailedException;
-import io.disk_indexer.core.dao.exceptions.PersistenceFailureException;
 import io.disk_indexer.core.dao.exceptions.ScannerFailedException;
 import io.disk_indexer.core.dao.exceptions.StreamListenerFailedException;
 import io.disk_indexer.core.model.Entry;
