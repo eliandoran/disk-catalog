@@ -9,30 +9,36 @@ import io.disk_indexer.core.dao.exceptions.InitializationFailedException;
 
 public abstract class ConnectionManager {
 	protected Connection savedConnection;
-	
+
 	protected abstract void initialize() throws InitializationFailedException;
-	
+
 	protected EntryDao entryDao;
-	
+
+	protected CollectionDao collectionDao;
+
 	protected void connectUrl(String url) throws ConnectionFailedException, InitializationFailedException {
 		Connection newConnection = null;
-		
+
 		try {
 			newConnection = DriverManager.getConnection(url);
 			newConnection.setAutoCommit(false);
 		} catch (SQLException e) {
 			throw new ConnectionFailedException(e);
-		}			
-					
-		savedConnection = newConnection;
+		}
+
+		this.savedConnection = newConnection;
 		initialize();
 	}
-	
+
 	public Connection getConnection() {
-		return savedConnection;
+		return this.savedConnection;
 	}
-	
+
 	public EntryDao getEntryDao() {
-		return entryDao;
+		return this.entryDao;
+	}
+
+	public CollectionDao getCollectionDao() {
+		return this.collectionDao;
 	}
 }

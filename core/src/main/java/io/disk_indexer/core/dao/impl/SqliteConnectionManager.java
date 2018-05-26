@@ -10,6 +10,7 @@ import io.disk_indexer.core.dao.exceptions.InitializationFailedException;
 public class SqliteConnectionManager extends FileSystemConnectionManager {
 	public SqliteConnectionManager() {
 		this.entryDao = new EntrySqlDao(this);
+		this.collectionDao = new CollectionSqlDao(this);
 	}
 
 	@Override
@@ -29,9 +30,9 @@ public class SqliteConnectionManager extends FileSystemConnectionManager {
 	protected void initialize() throws InitializationFailedException {
 		final String createCollectionsSQL =
 				"CREATE TABLE IF NOT EXISTS `Collections` (\n" +
-						"  `collectionId` INT NOT NULL,\n" +
-						"  `rootEntryId` INT NOT NULL,\n" +
-						"  PRIMARY KEY (`collectionId`))\n";
+						"  `collectionId` INT PRIMARY KEY,\n" +
+						"  `rootEntryId` INT,\n" +
+						"  `title` VARCHAR NOT NULL)";
 
 		final String createEntriesSQL =
 				"CREATE TABLE IF NOT EXISTS `Entries` (\n" +

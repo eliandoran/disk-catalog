@@ -1,6 +1,6 @@
 package io.disk_indexer.core.model;
 
-public class Collection {
+public class Collection extends Model<Integer> {
 	private String title;
 
 	private Entry rootEntry;
