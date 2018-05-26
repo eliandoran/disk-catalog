@@ -4,4 +4,12 @@
   <artifactId>core</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>Disk Index Core</name>
+  <packaging>pom</packaging>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.xerial</groupId>
+  		<artifactId>sqlite-jdbc</artifactId>
+  		<version>3.23.1</version>
+  	</dependency>
+  </dependencies>
 </project>
