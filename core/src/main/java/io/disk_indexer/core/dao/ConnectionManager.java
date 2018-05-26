@@ -19,6 +19,7 @@ public abstract class ConnectionManager {
 		
 		try {
 			newConnection = DriverManager.getConnection(url);
+			newConnection.setAutoCommit(false);
 		} catch (SQLException e) {
 			throw new ConnectionFailedException(e);
 		}			

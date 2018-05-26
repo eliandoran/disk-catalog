@@ -1,6 +1,7 @@
 package io.disk_indexer.core.scanners;
 
 import java.io.File;
+import java.sql.SQLException;
 
 import io.disk_indexer.core.dao.ConnectionManager;
 import io.disk_indexer.core.dao.exceptions.PersistenceFailureException;
@@ -9,6 +10,7 @@ import io.disk_indexer.core.model.EntryTypes;
 
 public class FileSystemScanner implements Scanner {
 	private ConnectionManager connectionManager;
+	private int fileCount = 0;
 	
 	public FileSystemScanner(ConnectionManager connectionManager) {
 		this.connectionManager = connectionManager;
@@ -16,17 +18,34 @@ public class FileSystemScanner implements Scanner {
 	
 	@Override
 	public Entry scan(String path) throws PersistenceFailureException {			
+		fileCount = 0;
+		return doScan(path);
+	}	
+	
+	private Entry doScan(String path) throws PersistenceFailureException {
 		File root = new File(path);
 		Entry rootEntry;
 		
-		if (root.isDirectory()) {
-			System.out.println(root.getPath());
-			rootEntry = new Entry(EntryTypes.Directory);			
+		if (fileCount >= 500) {
+			try {
+				connectionManager.getConnection().commit();
+			} catch (SQLException e) {
+				throw new PersistenceFailureException(e);
+			}
 			
+			fileCount = 0;
+		}
+		
+		fileCount++;
+		
+		if (root.isDirectory()) {
+			//System.out.println(root.getPath());
+			rootEntry = new Entry(EntryTypes.Directory);			
+			 
 			for (File child : root.listFiles()) {
-				Entry childEntry = scan(child.getPath());
+				Entry childEntry = doScan(child.getPath());
 				rootEntry.addChildEntry(childEntry);
-			}			
+			}								
 		} else {
 			rootEntry = new Entry(EntryTypes.File);
 		}
@@ -38,5 +57,5 @@ public class FileSystemScanner implements Scanner {
 		connectionManager.getEntryDao().create(rootEntry);
 		
 		return rootEntry;
-	}	
+	}
 }

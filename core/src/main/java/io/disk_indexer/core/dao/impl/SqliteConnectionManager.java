@@ -49,6 +49,7 @@ public class SqliteConnectionManager extends FileSystemConnectionManager {
 			
 			createCollectionsStmt.execute();
 			createEntriesStmt.execute();
+			savedConnection.commit();
 		} catch (SQLException e) {
 			throw new InitializationFailedException(e);
 		}
