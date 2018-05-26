@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import io.disk_indexer.core.dao.exceptions.ConnectionFailedException;
 import io.disk_indexer.core.dao.exceptions.InitializationFailedException;
+import io.disk_indexer.core.dao.impl.MetadataSqlDao;
 
 public abstract class ConnectionManager {
 	protected Connection savedConnection;
@@ -15,6 +16,8 @@ public abstract class ConnectionManager {
 	protected EntryDao entryDao;
 
 	protected CollectionDao collectionDao;
+
+	protected MetadataSqlDao metadataDao;
 
 	protected void connectUrl(String url) throws ConnectionFailedException, InitializationFailedException {
 		Connection newConnection = null;
@@ -40,5 +43,9 @@ public abstract class ConnectionManager {
 
 	public CollectionDao getCollectionDao() {
 		return this.collectionDao;
+	}
+
+	public MetadataDao getMetadataDao() {
+		return this.metadataDao;
 	}
 }

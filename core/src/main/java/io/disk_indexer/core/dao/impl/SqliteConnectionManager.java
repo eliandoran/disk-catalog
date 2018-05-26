@@ -11,6 +11,7 @@ public class SqliteConnectionManager extends FileSystemConnectionManager {
 	public SqliteConnectionManager() {
 		this.entryDao = new EntrySqlDao(this);
 		this.collectionDao = new CollectionSqlDao(this);
+		this.metadataDao = new MetadataSqlDao(this);
 	}
 
 	@Override
@@ -44,12 +45,22 @@ public class SqliteConnectionManager extends FileSystemConnectionManager {
 						"  `modificationDate` INT NOT NULL,\n" +
 						"  `size` INT NOT NULL)";
 
+		final String createMetadataSQL =
+				"CREATE TABLE IF NOT EXISTS `Metadata` (\n" +
+						"  `metadataId` INT PRIMARY KEY,\n" +
+						"  `entryId` INT NOT NULL,\n" +
+						"  `name` VARCHAR NOT NULL,\n" +
+						"  `value` VARCHAR)";
+
 		try {
 			PreparedStatement createCollectionsStmt = this.savedConnection.prepareStatement(createCollectionsSQL);
 			PreparedStatement createEntriesStmt = this.savedConnection.prepareStatement(createEntriesSQL);
+			PreparedStatement createMetadataStmt = this.savedConnection.prepareStatement(createMetadataSQL);
 
 			createCollectionsStmt.execute();
 			createEntriesStmt.execute();
+			createMetadataStmt.execute();
+
 			this.savedConnection.commit();
 		} catch (SQLException e) {
 			throw new InitializationFailedException(e);
