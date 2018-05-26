@@ -7,26 +7,25 @@ import io.disk_indexer.core.model.EntryTypes;
 
 public class FileSystemScanner implements Scanner {
 	@Override
-	public Entry scan(String path) {
-		File root = new File(path);				
-		Entry rootEntry = new Entry(EntryTypes.Directory);
-		rootEntry.setName(root.getName());
+	public Entry scan(String path) {			
+		File root = new File(path);
+		Entry rootEntry;
 		
-		for (File child : root.listFiles()) {
-			Entry childEntry;
+		if (root.isDirectory()) {
+			rootEntry = new Entry(EntryTypes.Directory);			
 			
-			if (child.isDirectory()) {
-				childEntry = scan(child.getPath());
-			} else {
-				childEntry = new Entry(EntryTypes.File);
-				childEntry.setName(child.getName());
-				childEntry.setModificationDate(child.lastModified());
-				childEntry.setSize(child.length());
-			}
-			
-			rootEntry.addChildEntry(childEntry);
+			for (File child : root.listFiles()) {
+				Entry childEntry = scan(child.getPath());
+				rootEntry.addChildEntry(childEntry);
+			}			
+		} else {
+			rootEntry = new Entry(EntryTypes.File);
 		}
 		
+		rootEntry.setName(root.getName());
+		rootEntry.setModificationDate(root.lastModified());
+		rootEntry.setSize(root.length());
+		
 		return rootEntry;
-	}
+	}	
 }
