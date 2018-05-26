@@ -16,6 +16,8 @@ public class Entry extends Model<Integer> {
 
 	private Entry parentEntry;
 
+	private Collection collection;
+
 	public Entry(EntryTypes entryType) {
 		this.entryType = entryType;
 	}
@@ -61,6 +63,14 @@ public class Entry extends Model<Integer> {
 
 	public void setParentEntry(Entry parentEntry) {
 		this.parentEntry = parentEntry;
+	}
+
+	public Collection getCollection() {
+		return collection;
+	}
+
+	public void setCollection(Collection collection) {
+		this.collection = collection;
 	}
 
 	public void addChildEntry(Entry child) {

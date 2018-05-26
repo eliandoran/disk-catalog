@@ -19,14 +19,17 @@ public class Tester {
 		try {
 			testDb.delete();
 			connectionManager.connect(testDb.getAbsolutePath());
-			connectionManager.getCollectionDao().create(new Collection("Music"));
+
+			Collection collection = new Collection("Music");
+			int collectionId = connectionManager.getCollectionDao().create(collection);
+			collection.setId(collectionId);
 			connectionManager.getConnection().commit();
 
 			FileSystemScanner scanner = new FileSystemScanner();
 			scanner.addEntryListener(new PersistanceEntryListener(connectionManager));
 			scanner.addEntryListener(new BasicProgressTrackerEntryListener(System.out));
 			scanner.addStreamListener(new MetadataStreamListener());
-			scanner.scan("/run/media/elian/Elian D./Music");
+			scanner.scan(collection, "/run/media/elian/Elian D./Music");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;

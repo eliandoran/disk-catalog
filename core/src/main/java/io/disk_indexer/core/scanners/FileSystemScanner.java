@@ -8,12 +8,17 @@ import java.io.InputStream;
 import io.disk_indexer.core.dao.exceptions.EntryListenerFailedException;
 import io.disk_indexer.core.dao.exceptions.ScannerFailedException;
 import io.disk_indexer.core.dao.exceptions.StreamListenerFailedException;
+import io.disk_indexer.core.model.Collection;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.EntryTypes;
 
 public class FileSystemScanner extends Scanner {
+	private Collection collection;
+
 	@Override
-	public void scan(String path) throws ScannerFailedException {
+	public void scan(Collection collection, String path) throws ScannerFailedException {
+		this.collection = collection;
+
 		try {
 			invokeEntryListenerOnStart();
 
@@ -39,6 +44,7 @@ public class FileSystemScanner extends Scanner {
 		rootEntry.setModificationDate(root.lastModified());
 		rootEntry.setSize(root.length());
 		rootEntry.setParentEntry(parentEntry);
+		rootEntry.setCollection(this.collection);
 
 		invokeEntryListeners(rootEntry);
 		invokeStreamListeners(rootEntry, path);
