@@ -9,6 +9,7 @@ import io.disk_indexer.core.scanners.impl.FileSystemScanner;
 import io.disk_indexer.core.scanners.listeners.BasicProgressTrackerEntryListener;
 import io.disk_indexer.core.scanners.listeners.MetadataStreamListener;
 import io.disk_indexer.core.scanners.listeners.PersistanceEntryListener;
+import io.disk_indexer.core.scanners.metadata.music.Id3;
 
 public class Tester {
 
@@ -25,10 +26,13 @@ public class Tester {
 			collection.setId(collectionId);
 			connectionManager.getConnection().commit();
 
+			MetadataStreamListener metadataStreamListener = new MetadataStreamListener();
+			metadataStreamListener.addProvider(new Id3());
+
 			FileSystemScanner scanner = new FileSystemScanner();
 			scanner.addEntryListener(new PersistanceEntryListener(connectionManager));
 			scanner.addEntryListener(new BasicProgressTrackerEntryListener(System.out));
-			scanner.addStreamListener(new MetadataStreamListener());
+			scanner.addStreamListener(metadataStreamListener);
 			scanner.scan(collection, "/run/media/elian/Elian D./Music");
 		} catch (Exception e) {
 			e.printStackTrace();
