@@ -1,6 +1,8 @@
 package io.disk_indexer.core.scanners;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import io.disk_indexer.core.dao.exceptions.EntryListenerFailedException;
 import io.disk_indexer.core.dao.exceptions.ScannerFailedException;
@@ -46,7 +48,10 @@ public class FileSystemScanner extends Scanner {
 
 	@Override
 	protected InputStream obtainStream(Object tag) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return new FileInputStream((String)tag);
+		} catch (FileNotFoundException e) {
+			return null;
+		}
 	}
 }

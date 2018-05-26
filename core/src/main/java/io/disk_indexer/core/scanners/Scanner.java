@@ -51,7 +51,9 @@ public abstract class Scanner {
 					inputStream = obtainStream(tag);
 				}
 				
-				streamListener.receiveStream(entry, inputStream);
+				if (inputStream != null) {
+					streamListener.receiveStream(entry, inputStream);					
+				}				
 			}
 		}
 	}

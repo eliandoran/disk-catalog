@@ -1,5 +1,6 @@
 package io.disk_indexer.core.scanners;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import io.disk_indexer.core.model.Entry;
@@ -16,6 +17,10 @@ public class MetadataStreamListener implements StreamListener {
 
 	@Override
 	public void receiveStream(Entry entry, InputStream inputStream) {
-		System.out.println(entry.getName());
+		try {
+			System.out.println(entry.getName() + " " + inputStream.read());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
