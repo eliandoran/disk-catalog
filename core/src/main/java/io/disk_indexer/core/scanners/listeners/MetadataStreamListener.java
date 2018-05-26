@@ -1,17 +1,19 @@
 package io.disk_indexer.core.scanners.listeners;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.EntryTypes;
+import io.disk_indexer.core.model.Metadata;
 import io.disk_indexer.core.scanners.StreamListener;
 import io.disk_indexer.core.scanners.metadata.MetadataProvider;
 
 public class MetadataStreamListener implements StreamListener {
 	private Map<String, MetadataProvider> providers;
+
+	private MetadataProvider lastProvider;
 
 	public MetadataStreamListener() {
 		this.providers = new HashMap<>();
@@ -33,6 +35,7 @@ public class MetadataStreamListener implements StreamListener {
 		MetadataProvider provider = this.providers.get(extension);
 		if (provider != null) {
 			System.out.println("Found provider for " + entry.getName() + ":" + provider.getClass().getName());
+			this.lastProvider = provider;
 			return true;
 		} else
 			return false;
@@ -48,10 +51,12 @@ public class MetadataStreamListener implements StreamListener {
 
 	@Override
 	public void receiveStream(Entry entry, InputStream inputStream) {
-		try {
-			System.out.println(entry.getName() + " " + inputStream.read());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		if (this.lastProvider == null)
+			throw new RuntimeException("Last provider is null. This shouldn't have happened.");
+
+		Iterable<Metadata> metadata = this.lastProvider.process(entry, inputStream);
+		entry.addMetadata(metadata);
+
+		this.lastProvider = null;
 	}
 }

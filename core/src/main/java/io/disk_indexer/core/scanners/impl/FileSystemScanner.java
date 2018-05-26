@@ -47,8 +47,8 @@ public class FileSystemScanner extends Scanner {
 		rootEntry.setParentEntry(parentEntry);
 		rootEntry.setCollection(this.collection);
 
-		invokeEntryListeners(rootEntry);
 		invokeStreamListeners(rootEntry, path);
+		invokeEntryListeners(rootEntry);
 
 		if (root.isDirectory()) {
 			for (File child : root.listFiles()) {

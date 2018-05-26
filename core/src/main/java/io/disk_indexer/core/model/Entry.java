@@ -14,6 +14,8 @@ public class Entry extends Model<Integer> {
 
 	private List<Entry> childEntries;
 
+	private List<Metadata> metadata;
+
 	private Entry parentEntry;
 
 	private Collection collection;
@@ -27,6 +29,10 @@ public class Entry extends Model<Integer> {
 			throw new IllegalStateException("Attempt to obtain child entries from a non-container (i.e. not a directory).");
 
 		return this.childEntries;
+	}
+
+	public Iterable<Metadata> getMetadata() {
+		return this.metadata;
 	}
 
 	public EntryTypes getEntryType() {
@@ -66,7 +72,7 @@ public class Entry extends Model<Integer> {
 	}
 
 	public Collection getCollection() {
-		return collection;
+		return this.collection;
 	}
 
 	public void setCollection(Collection collection) {
@@ -82,6 +88,21 @@ public class Entry extends Model<Integer> {
 		}
 
 		this.childEntries.add(child);
+	}
+
+	public void addMetadata(Metadata metadata) {
+		if (this.metadata == null) {
+			this.metadata = new LinkedList<>();
+		}
+
+		metadata.setParentEntry(this);
+		this.metadata.add(metadata);
+	}
+
+	public void addMetadata(Iterable<Metadata> metadata) {
+		for (Metadata data : metadata) {
+			addMetadata(data);
+		}
 	}
 
 	@Override
