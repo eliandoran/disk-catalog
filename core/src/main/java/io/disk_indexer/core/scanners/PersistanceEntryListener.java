@@ -16,7 +16,7 @@ public class PersistanceEntryListener implements EntryListener {
 	
 	@Override
 	public void onScanStarted() {
-		System.out.println("Scan started.");
+		// No action needed.
 	}
 	
 	@Override
@@ -34,8 +34,6 @@ public class PersistanceEntryListener implements EntryListener {
 			connectionManager.getConnection().commit();
 		} catch (SQLException e) {
 			throw new EntryListenerFailedException(e);
-		}	
-		
-		System.out.println("Scan complete.");
+		}
 	}
 }
