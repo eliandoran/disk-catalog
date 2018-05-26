@@ -13,30 +13,27 @@ public class FileSystemScanner implements Scanner {
 	private int fileCount = 0;
 	
 	public FileSystemScanner(ConnectionManager connectionManager) {
-		this.connectionManager = connectionManager;
+		this.connectionManager = connectionManager;			
 	}
 	
 	@Override
 	public Entry scan(String path) throws PersistenceFailureException {			
 		fileCount = 0;
-		return doScan(path);
+		
+		Entry rootEntry = doScan(path);
+		
+		try {
+			connectionManager.getConnection().commit();
+		} catch (SQLException e) {
+			throw new PersistenceFailureException(e);
+		}			
+		
+		return rootEntry;
 	}	
 	
 	private Entry doScan(String path) throws PersistenceFailureException {
 		File root = new File(path);
-		Entry rootEntry;
-		
-		if (fileCount >= 500) {
-			try {
-				connectionManager.getConnection().commit();
-			} catch (SQLException e) {
-				throw new PersistenceFailureException(e);
-			}
-			
-			fileCount = 0;
-		}
-		
-		fileCount++;
+		Entry rootEntry;		
 		
 		if (root.isDirectory()) {
 			//System.out.println(root.getPath());
