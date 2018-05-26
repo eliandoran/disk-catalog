@@ -12,6 +12,8 @@ public abstract class ConnectionManager {
 	
 	protected abstract void initialize() throws InitializationFailedException;
 	
+	protected EntryDao entryDao;
+	
 	protected void connectUrl(String url) throws ConnectionFailedException, InitializationFailedException {
 		Connection newConnection = null;
 		
@@ -23,5 +25,13 @@ public abstract class ConnectionManager {
 					
 		savedConnection = newConnection;
 		initialize();
+	}
+	
+	public Connection getConnection() {
+		return savedConnection;
+	}
+	
+	public EntryDao getEntryDao() {
+		return entryDao;
 	}
 }

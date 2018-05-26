@@ -8,7 +8,11 @@ import io.disk_indexer.core.dao.FileSystemConnectionManager;
 import io.disk_indexer.core.dao.exceptions.ConnectionFailedException;
 import io.disk_indexer.core.dao.exceptions.InitializationFailedException;
 
-public class SqliteConnectionManager extends FileSystemConnectionManager {
+public class SqliteConnectionManager extends FileSystemConnectionManager {		
+	public SqliteConnectionManager() {
+		entryDao = new EntrySqlDao(this);
+	}
+	
 	@Override
 	public void connect(String filePath) throws ConnectionFailedException, InitializationFailedException {
 		String connectionString = obtainConnectionString(filePath);
@@ -32,13 +36,12 @@ public class SqliteConnectionManager extends FileSystemConnectionManager {
 		
 		final String createEntriesSQL = 
 				"CREATE TABLE IF NOT EXISTS `Entries` (\n" +
-				"  `entryId` INT NOT NULL,\n" +
-				"  `parentEntryId` INT NOT NULL,\n" +
-				"  `collectionId` INT NOT NULL,\n" +
+				"  `entryId` INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+				"  `parentEntryId` INT,\n" +
+				"  `collectionId` INT,\n" +
 				"  `name` VARCHAR NOT NULL,\n" +
 				"  `modificationDate` INT NOT NULL,\n" +
-				"  `size` INT NOT NULL,\n" +
-				"  PRIMARY KEY (`entryId`))";
+				"  `size` INT NOT NULL)";
 				
 		try {
 			PreparedStatement createCollectionsStmt = this.savedConnection.prepareStatement(createCollectionsSQL);

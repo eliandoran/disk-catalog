@@ -1,5 +1,7 @@
 package io.disk_indexer.core.dao;
 
-public interface EntryDao {
+import io.disk_indexer.core.model.Entry;
 
+public interface EntryDao extends CrudInterface<Entry> {
+	
 }
