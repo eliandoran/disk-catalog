@@ -5,10 +5,10 @@ import java.io.File;
 import io.disk_indexer.core.dao.FileSystemConnectionManager;
 import io.disk_indexer.core.dao.impl.SqliteConnectionManager;
 import io.disk_indexer.core.model.Collection;
-import io.disk_indexer.core.scanners.BasicProgressTrackerEntryListener;
-import io.disk_indexer.core.scanners.FileSystemScanner;
-import io.disk_indexer.core.scanners.MetadataStreamListener;
-import io.disk_indexer.core.scanners.PersistanceEntryListener;
+import io.disk_indexer.core.scanners.impl.FileSystemScanner;
+import io.disk_indexer.core.scanners.listeners.BasicProgressTrackerEntryListener;
+import io.disk_indexer.core.scanners.listeners.MetadataStreamListener;
+import io.disk_indexer.core.scanners.listeners.PersistanceEntryListener;
 
 public class Tester {
 

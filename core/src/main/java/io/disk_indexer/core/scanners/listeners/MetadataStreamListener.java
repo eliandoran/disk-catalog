@@ -1,10 +1,11 @@
-package io.disk_indexer.core.scanners;
+package io.disk_indexer.core.scanners.listeners;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.EntryTypes;
+import io.disk_indexer.core.scanners.StreamListener;
 
 public class MetadataStreamListener implements StreamListener {
 	@Override

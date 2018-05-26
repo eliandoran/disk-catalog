@@ -1,9 +1,10 @@
-package io.disk_indexer.core.scanners;
+package io.disk_indexer.core.scanners.listeners;
 
 import java.io.PrintStream;
 
 import io.disk_indexer.core.dao.exceptions.EntryListenerFailedException;
 import io.disk_indexer.core.model.Entry;
+import io.disk_indexer.core.scanners.EntryListener;
 
 public class BasicProgressTrackerEntryListener implements EntryListener {
 	private PrintStream outputStream;

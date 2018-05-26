@@ -1,4 +1,4 @@
-package io.disk_indexer.core.scanners;
+package io.disk_indexer.core.scanners.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +11,7 @@ import io.disk_indexer.core.dao.exceptions.StreamListenerFailedException;
 import io.disk_indexer.core.model.Collection;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.EntryTypes;
+import io.disk_indexer.core.scanners.Scanner;
 
 public class FileSystemScanner extends Scanner {
 	private Collection collection;
