@@ -3,10 +3,10 @@ package io.disk_indexer.core.dao.impl;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import io.disk_indexer.core.dao.ConnectionFailedException;
 import io.disk_indexer.core.dao.ConnectionManager;
 import io.disk_indexer.core.dao.FileSystemConnectionManager;
-import io.disk_indexer.core.dao.InitializationFailedException;
+import io.disk_indexer.core.dao.exceptions.ConnectionFailedException;
+import io.disk_indexer.core.dao.exceptions.InitializationFailedException;
 
 public class SqliteConnectionManager extends FileSystemConnectionManager {
 	@Override

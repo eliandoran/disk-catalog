@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import io.disk_indexer.core.dao.exceptions.ConnectionFailedException;
+import io.disk_indexer.core.dao.exceptions.InitializationFailedException;
+
 public abstract class ConnectionManager {
 	protected Connection savedConnection;
 	
