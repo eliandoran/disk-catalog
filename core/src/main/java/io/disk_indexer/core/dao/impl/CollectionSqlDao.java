@@ -4,9 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import io.disk_indexer.core.dao.CollectionDao;
 import io.disk_indexer.core.dao.ConnectionManager;
 import io.disk_indexer.core.dao.exceptions.PersistenceFailureException;
+import io.disk_indexer.core.dao.generic.CollectionDao;
 import io.disk_indexer.core.model.Collection;
 
 public class CollectionSqlDao implements CollectionDao {

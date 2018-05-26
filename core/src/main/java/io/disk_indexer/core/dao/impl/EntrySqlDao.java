@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import io.disk_indexer.core.dao.ConnectionManager;
-import io.disk_indexer.core.dao.EntryDao;
 import io.disk_indexer.core.dao.exceptions.PersistenceFailureException;
+import io.disk_indexer.core.dao.generic.EntryDao;
 import io.disk_indexer.core.model.Entry;
 
 public class EntrySqlDao implements EntryDao {

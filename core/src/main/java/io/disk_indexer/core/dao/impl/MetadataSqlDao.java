@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import io.disk_indexer.core.dao.ConnectionManager;
-import io.disk_indexer.core.dao.MetadataDao;
 import io.disk_indexer.core.dao.exceptions.PersistenceFailureException;
+import io.disk_indexer.core.dao.generic.MetadataDao;
 import io.disk_indexer.core.model.Metadata;
 
 public class MetadataSqlDao implements MetadataDao {

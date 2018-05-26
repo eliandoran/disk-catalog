@@ -6,6 +6,9 @@ import java.sql.SQLException;
 
 import io.disk_indexer.core.dao.exceptions.ConnectionFailedException;
 import io.disk_indexer.core.dao.exceptions.InitializationFailedException;
+import io.disk_indexer.core.dao.generic.CollectionDao;
+import io.disk_indexer.core.dao.generic.EntryDao;
+import io.disk_indexer.core.dao.generic.MetadataDao;
 import io.disk_indexer.core.dao.impl.MetadataSqlDao;
 
 public abstract class ConnectionManager {
