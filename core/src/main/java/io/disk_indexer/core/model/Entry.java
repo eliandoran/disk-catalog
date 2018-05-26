@@ -41,4 +41,14 @@ public class Entry {
 		
 		this.childEntries.add(child);
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(entryType);
+		builder.append(": ");
+		builder.append(name);
+		
+		return builder.toString();
+	}
 }
