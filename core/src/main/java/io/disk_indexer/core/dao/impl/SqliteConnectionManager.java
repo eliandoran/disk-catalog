@@ -40,6 +40,7 @@ public class SqliteConnectionManager extends FileSystemConnectionManager {
 						"  `parentEntryId` INT,\n" +
 						"  `collectionId` INT,\n" +
 						"  `name` VARCHAR NOT NULL,\n" +
+						"  `type` INT NOT NULL,\n" +
 						"  `modificationDate` INT NOT NULL,\n" +
 						"  `size` INT NOT NULL)";
 

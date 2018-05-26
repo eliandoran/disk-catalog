@@ -19,7 +19,7 @@ public class EntrySqlDao implements EntryDao {
 
 	@Override
 	public int create(Entry entity) throws PersistenceFailureException {
-		final String createEntrySQL = "INSERT INTO `Entries` (`entryId`, `parentEntryId`, `collectionId`, `name`, `modificationDate`, `size`) VALUES (?, ?, ?, ?, ?, ?)";
+		final String createEntrySQL = "INSERT INTO `Entries` (`entryId`, `parentEntryId`, `collectionId`, `name`, `type`, `modificationDate`, `size`) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 		try {
 			int paramIndex = 1;
@@ -39,6 +39,7 @@ public class EntrySqlDao implements EntryDao {
 			}
 
 			createEntryStmt.setString(paramIndex++, entity.getName());
+			createEntryStmt.setInt(paramIndex++, entity.getEntryType().getNumericValue());
 			createEntryStmt.setLong(paramIndex++, entity.getModificationDate());
 			createEntryStmt.setLong(paramIndex++, entity.getSize());
 			createEntryStmt.execute();
