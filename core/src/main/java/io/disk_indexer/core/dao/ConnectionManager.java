@@ -5,9 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public abstract class ConnectionManager {
-	private Connection savedConnection;
+	protected Connection savedConnection;
 	
-	protected void connectUrl(String url) throws ConnectionFailedException {
+	protected abstract void initialize() throws InitializationFailedException;
+	
+	protected void connectUrl(String url) throws ConnectionFailedException, InitializationFailedException {
 		Connection newConnection = null;
 		
 		try {
@@ -17,5 +19,6 @@ public abstract class ConnectionManager {
 		}			
 					
 		savedConnection = newConnection;
+		initialize();
 	}
 }
