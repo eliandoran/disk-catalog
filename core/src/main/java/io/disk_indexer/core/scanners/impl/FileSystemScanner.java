@@ -1,9 +1,11 @@
 package io.disk_indexer.core.scanners.impl;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.IOException;
+import java.nio.channels.SeekableByteChannel;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 
 import io.disk_indexer.core.dao.exceptions.EntryListenerFailedException;
 import io.disk_indexer.core.dao.exceptions.ScannerFailedException;
@@ -58,10 +60,11 @@ public class FileSystemScanner extends Scanner {
 	}
 
 	@Override
-	protected InputStream obtainStream(Object tag) {
+	protected SeekableByteChannel obtainStream(Object tag) {
 		try {
-			return new FileInputStream((String)tag);
-		} catch (FileNotFoundException e) {
+			return Files.newByteChannel(Paths.get((String)tag), StandardOpenOption.READ);
+		} catch (IOException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

@@ -1,6 +1,6 @@
 package io.disk_indexer.core.scanners.listeners;
 
-import java.io.InputStream;
+import java.nio.channels.SeekableByteChannel;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,11 +50,11 @@ public class MetadataStreamListener implements StreamListener {
 	}
 
 	@Override
-	public void receiveStream(Entry entry, InputStream inputStream) {
+	public void receiveStream(Entry entry, SeekableByteChannel byteStream) {
 		if (this.lastProvider == null)
 			throw new RuntimeException("Last provider is null. This shouldn't have happened.");
 
-		Iterable<Metadata> metadata = this.lastProvider.process(entry, inputStream);
+		Iterable<Metadata> metadata = this.lastProvider.process(entry, byteStream);
 		entry.addMetadata(metadata);
 
 		this.lastProvider = null;

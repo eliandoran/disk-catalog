@@ -33,7 +33,7 @@ public class Tester {
 			scanner.addEntryListener(new PersistanceEntryListener(connectionManager));
 			scanner.addEntryListener(new BasicProgressTrackerEntryListener(System.out));
 			scanner.addStreamListener(metadataStreamListener);
-			scanner.scan(collection, "/run/media/elian/Elian D./Music");
+			scanner.scan(collection, "/run/media/elian/Elian D./Music/Fallout 3 Soundtrack");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;

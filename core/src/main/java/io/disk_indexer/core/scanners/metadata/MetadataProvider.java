@@ -1,6 +1,6 @@
 package io.disk_indexer.core.scanners.metadata;
 
-import java.io.InputStream;
+import java.nio.channels.SeekableByteChannel;
 
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.Metadata;
@@ -8,5 +8,5 @@ import io.disk_indexer.core.model.Metadata;
 public interface MetadataProvider {
 	String[] getSupportedExtensions();
 
-	Iterable<Metadata> process(Entry entry, InputStream inputStream);
+	Iterable<Metadata> process(Entry entry, SeekableByteChannel byteChannel);
 }
