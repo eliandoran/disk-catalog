@@ -42,7 +42,7 @@ public class Mp3FileParser {
 			title = tags.getTitle();
 			album = tags.getAlbum();
 			year = tags.getYear();
-			genre = String.valueOf(tags.getGenre());
+			genre = (!tags.getGenreDescription().isEmpty() ? tags.getGenreDescription() : genre);
 			comment = tags.getComment();
 		}
 
@@ -54,7 +54,7 @@ public class Mp3FileParser {
 			title = (!tags.getTitle().isEmpty() ? tags.getTitle() : title);
 			album = (!tags.getAlbum().isEmpty() ? tags.getAlbum() : album);
 			year = (!tags.getYear().isEmpty() ? tags.getYear() : year);
-			genre = String.valueOf(tags.getGenre());
+			genre = (!tags.getGenreDescription().isEmpty() ? tags.getGenreDescription() : genre);
 			comment = (!tags.getComment().isEmpty() ? tags.getComment() : comment);
 		}
 
