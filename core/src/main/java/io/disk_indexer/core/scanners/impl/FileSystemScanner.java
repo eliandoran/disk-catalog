@@ -7,9 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-import io.disk_indexer.core.dao.exceptions.EntryListenerFailedException;
-import io.disk_indexer.core.dao.exceptions.ScannerFailedException;
-import io.disk_indexer.core.dao.exceptions.StreamListenerFailedException;
+import io.disk_indexer.core.exceptions.EntryListenerFailedException;
+import io.disk_indexer.core.exceptions.ScannerFailedException;
+import io.disk_indexer.core.exceptions.StreamListenerFailedException;
 import io.disk_indexer.core.model.Collection;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.EntryTypes;

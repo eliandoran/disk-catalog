@@ -1,4 +1,4 @@
-package io.disk_indexer.core.dao.exceptions;
+package io.disk_indexer.core.exceptions;
 
 /**
  * A wrapper exception thrown when the persistence layer fails to maintain a proper connection to its data source (i.e. a database).

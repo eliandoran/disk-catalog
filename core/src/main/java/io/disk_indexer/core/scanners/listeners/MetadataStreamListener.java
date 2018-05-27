@@ -3,8 +3,8 @@ package io.disk_indexer.core.scanners.listeners;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.disk_indexer.core.dao.exceptions.MetadataProviderFailedException;
-import io.disk_indexer.core.dao.exceptions.StreamListenerFailedException;
+import io.disk_indexer.core.exceptions.MetadataProviderFailedException;
+import io.disk_indexer.core.exceptions.StreamListenerFailedException;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.EntryTypes;
 import io.disk_indexer.core.model.Metadata;

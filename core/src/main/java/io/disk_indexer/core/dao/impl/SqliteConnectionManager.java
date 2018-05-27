@@ -4,8 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import io.disk_indexer.core.dao.FileSystemConnectionManager;
-import io.disk_indexer.core.dao.exceptions.ConnectionFailedException;
-import io.disk_indexer.core.dao.exceptions.InitializationFailedException;
+import io.disk_indexer.core.exceptions.ConnectionFailedException;
+import io.disk_indexer.core.exceptions.InitializationFailedException;
 
 public class SqliteConnectionManager extends FileSystemConnectionManager {
 	public SqliteConnectionManager() {

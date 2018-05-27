@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import io.disk_indexer.core.dao.exceptions.ConnectionFailedException;
-import io.disk_indexer.core.dao.exceptions.InitializationFailedException;
 import io.disk_indexer.core.dao.generic.CollectionDao;
 import io.disk_indexer.core.dao.generic.EntryDao;
 import io.disk_indexer.core.dao.generic.MetadataDao;
 import io.disk_indexer.core.dao.impl.MetadataSqlDao;
+import io.disk_indexer.core.exceptions.ConnectionFailedException;
+import io.disk_indexer.core.exceptions.InitializationFailedException;
 
 public abstract class ConnectionManager {
 	protected Connection savedConnection;

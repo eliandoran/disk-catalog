@@ -1,4 +1,4 @@
-package io.disk_indexer.core.dao.exceptions;
+package io.disk_indexer.core.exceptions;
 
 import io.disk_indexer.core.scanners.StreamListener;
 

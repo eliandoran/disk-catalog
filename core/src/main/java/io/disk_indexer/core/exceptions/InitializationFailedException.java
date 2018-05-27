@@ -1,4 +1,4 @@
-package io.disk_indexer.core.dao.exceptions;
+package io.disk_indexer.core.exceptions;
 
 /**
  * A wrapper exception thrown when the persistence layer has failed to initialize itself properly, after a connection has been made.

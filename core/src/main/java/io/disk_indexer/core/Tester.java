@@ -9,7 +9,7 @@ import io.disk_indexer.core.scanners.impl.FileSystemScanner;
 import io.disk_indexer.core.scanners.listeners.BasicProgressTrackerEntryListener;
 import io.disk_indexer.core.scanners.listeners.MetadataStreamListener;
 import io.disk_indexer.core.scanners.listeners.PersistanceEntryListener;
-import io.disk_indexer.core.scanners.metadata.image.JpegMetadataProvider;
+import io.disk_indexer.core.scanners.metadata.image.ImageMetadataProvider;
 import io.disk_indexer.core.scanners.metadata.music.Id3;
 
 public class Tester {
@@ -29,7 +29,7 @@ public class Tester {
 
 			MetadataStreamListener metadataStreamListener = new MetadataStreamListener();
 			metadataStreamListener.addProvider(new Id3());
-			metadataStreamListener.addProvider(new JpegMetadataProvider());
+			metadataStreamListener.addProvider(new ImageMetadataProvider());
 
 			FileSystemScanner scanner = new FileSystemScanner();
 			scanner.addEntryListener(new PersistanceEntryListener(connectionManager));
