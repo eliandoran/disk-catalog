@@ -14,19 +14,21 @@ import com.drew.metadata.Tag;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.jpeg.JpegDirectory;
+import com.drew.metadata.png.PngDirectory;
 
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.Metadata;
 import io.disk_indexer.core.scanners.StreamListenerInputType;
 import io.disk_indexer.core.scanners.metadata.MetadataProvider;
 
-public class JpegMetadataProvider implements MetadataProvider {
+public class ImageMetadataProvider implements MetadataProvider {
 	private static List<Class<?>> desiredDirectories = new LinkedList<>();
 
 	private static Map<String, ImageMetadata> mappings = new HashMap<>();
 
 	static {
 		desiredDirectories.add(JpegDirectory.class);
+		desiredDirectories.add(PngDirectory.class);
 		desiredDirectories.add(ExifIFD0Directory.class);
 		desiredDirectories.add(ExifSubIFDDirectory.class);
 
@@ -35,6 +37,7 @@ public class JpegMetadataProvider implements MetadataProvider {
 		mappings.put("Make", ImageMetadata.MAKE);
 		mappings.put("Model", ImageMetadata.MODEL);
 		mappings.put("Software", ImageMetadata.SOFTWARE);
+		mappings.put("Textual Data - Software", ImageMetadata.SOFTWARE);
 		mappings.put("Date/Time", ImageMetadata.DATETIME);
 		mappings.put("Artist", ImageMetadata.ARTIST);
 		mappings.put("Copyright", ImageMetadata.COPYRIGHT);
@@ -53,7 +56,22 @@ public class JpegMetadataProvider implements MetadataProvider {
 
 	@Override
 	public String[] getSupportedExtensions() {
-		return new String[] { "jpg", "jpeg", "jpe", "jif", "jfif", "jfi" };
+		return new String[] {
+				// JPEG
+				"jpg", "jpeg", "jpe", "jif", "jfif", "jfi",
+
+				// TIFF
+				"tiff", "tif",
+
+				// BMP
+				"bmp", "dib",
+
+				// Camera raw
+				"nef", "cr2", "orf", "arw", "rw2", "rwl", "srw",
+
+				// Different file types with single extension
+				"psd", "png", "gif", "ico", "pcx"
+		};
 	}
 
 	@Override
@@ -66,15 +84,25 @@ public class JpegMetadataProvider implements MetadataProvider {
 
 			for (Directory directory : tags.getDirectories()) {
 				if (!desiredDirectories.contains(directory.getClass())) {
+					System.out.println("Skipped " + directory.getName() + ": " + directory.getClass().getName());
+
+					for (Tag tag : directory.getTags()) {
+						System.out.println(tag);
+					}
+
 					continue;
 				}
 
 				for (Tag tag : directory.getTags()) {
 					ImageMetadata correspondingMeta = mappings.get(tag.getTagName());
-					String value = tag.getDescription().trim();
+
+					String value = (tag.getDescription() != null ? tag.getDescription().trim() : "");
 
 					if (correspondingMeta != null && !value.isEmpty()) {
 						metadata.add(new Metadata(correspondingMeta.getKey(), value));
+						System.out.println("Added " + tag.getTagName() + " " + tag.getDescription());
+					} else {
+						System.out.println("Skipped " + tag.getTagName() + " " + tag.getDescription());
 					}
 				}
 			}
