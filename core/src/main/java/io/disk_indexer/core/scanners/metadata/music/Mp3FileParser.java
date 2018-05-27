@@ -56,6 +56,13 @@ public class Mp3FileParser {
 			year = (!tags.getYear().isEmpty() ? tags.getYear() : year);
 			genre = (!tags.getGenreDescription().isEmpty() ? tags.getGenreDescription() : genre);
 			comment = (!tags.getComment().isEmpty() ? tags.getComment() : comment);
+
+			addMetaIfNotNull(metadata, MusicMetadata.COMPOSER, tags.getComposer());
+			addMetaIfNotNull(metadata, MusicMetadata.PUBLISHER, tags.getPublisher());
+			addMetaIfNotNull(metadata, MusicMetadata.ORIGINAL_ARTIST, tags.getOriginalArtist());
+			addMetaIfNotNull(metadata, MusicMetadata.ALBUM_ARTIST, tags.getAlbumArtist());
+			addMetaIfNotNull(metadata, MusicMetadata.COPYRIGHT, tags.getCopyright());
+			addMetaIfNotNull(metadata, MusicMetadata.URL, tags.getUrl());
 		}
 
 		metadata.add(new Metadata(MusicMetadata.TRACK.getKey(), track));
@@ -67,5 +74,12 @@ public class Mp3FileParser {
 		metadata.add(new Metadata(MusicMetadata.COMMENT.getKey(), comment));
 
 		return metadata;
+	}
+
+	private static void addMetaIfNotNull(List<Metadata> metadataList, MusicMetadata key, String value) {
+		if (value == null || value.isEmpty())
+			return;
+
+		metadataList.add(new Metadata(key.getKey(), value.toString()));
 	}
 }
