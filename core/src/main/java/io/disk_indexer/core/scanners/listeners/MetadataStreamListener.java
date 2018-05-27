@@ -1,6 +1,5 @@
 package io.disk_indexer.core.scanners.listeners;
 
-import java.nio.channels.SeekableByteChannel;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +7,7 @@ import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.EntryTypes;
 import io.disk_indexer.core.model.Metadata;
 import io.disk_indexer.core.scanners.StreamListener;
+import io.disk_indexer.core.scanners.StreamListenerInputType;
 import io.disk_indexer.core.scanners.metadata.MetadataProvider;
 
 public class MetadataStreamListener implements StreamListener {
@@ -26,9 +26,9 @@ public class MetadataStreamListener implements StreamListener {
 	}
 
 	@Override
-	public boolean needsStream(Entry entry) {
+	public StreamListenerInputType needsStream(Entry entry) {
 		if (entry.getEntryType() != EntryTypes.File)
-			return false;
+			return null;
 
 		String extension = getFileExtension(entry.getName());
 
@@ -36,9 +36,9 @@ public class MetadataStreamListener implements StreamListener {
 		if (provider != null) {
 			System.out.println("Found provider for " + entry.getName() + ":" + provider.getClass().getName());
 			this.lastProvider = provider;
-			return true;
+			return provider.getInputType();
 		} else
-			return false;
+			return null;
 	}
 
 	private String getFileExtension(String fileName) {
@@ -50,11 +50,11 @@ public class MetadataStreamListener implements StreamListener {
 	}
 
 	@Override
-	public void receiveStream(Entry entry, SeekableByteChannel byteStream) {
+	public void receiveStream(Entry entry, Object inputSource) {
 		if (this.lastProvider == null)
 			throw new RuntimeException("Last provider is null. This shouldn't have happened.");
 
-		Iterable<Metadata> metadata = this.lastProvider.process(entry, byteStream);
+		Iterable<Metadata> metadata = this.lastProvider.process(entry, inputSource);
 		entry.addMetadata(metadata);
 
 		this.lastProvider = null;

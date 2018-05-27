@@ -1,8 +1,8 @@
 package io.disk_indexer.core.scanners.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.channels.SeekableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -14,6 +14,7 @@ import io.disk_indexer.core.model.Collection;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.EntryTypes;
 import io.disk_indexer.core.scanners.Scanner;
+import io.disk_indexer.core.scanners.StreamListenerInputType;
 
 public class FileSystemScanner extends Scanner {
 	private Collection collection;
@@ -60,9 +61,18 @@ public class FileSystemScanner extends Scanner {
 	}
 
 	@Override
-	protected SeekableByteChannel obtainStream(Object tag) {
+	protected Object obtainStream(StreamListenerInputType inputType, Object tag) {
+		final String fileName = (String)tag;
+
 		try {
-			return Files.newByteChannel(Paths.get((String)tag), StandardOpenOption.READ);
+			switch (inputType) {
+			case INPUT_STREAM:
+				return new FileInputStream(fileName);
+			case SEEKABLE_BYTE_CHANNEL:
+				return Files.newByteChannel(Paths.get(fileName), StandardOpenOption.READ);
+			default:
+				throw new RuntimeException("Unknown input type.");
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;

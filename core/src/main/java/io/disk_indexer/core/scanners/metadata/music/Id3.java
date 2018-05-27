@@ -9,19 +9,27 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.Metadata;
+import io.disk_indexer.core.scanners.StreamListenerInputType;
 import io.disk_indexer.core.scanners.metadata.MetadataProvider;
 
 public class Id3 implements MetadataProvider {
+	@Override
+	public StreamListenerInputType getInputType() {
+		return StreamListenerInputType.SEEKABLE_BYTE_CHANNEL;
+	}
+
 	@Override
 	public String[] getSupportedExtensions() {
 		return new String[] { "mp3" };
 	}
 
 	@Override
-	public Iterable<Metadata> process(Entry entry, SeekableByteChannel byteChannel) {
-		Mp3agicInputSource inputSource = new Mp3agicInputSource(byteChannel);
+	public Iterable<Metadata> process(Entry entry, Object inputSource) {
+		SeekableByteChannel byteChannel = (SeekableByteChannel)inputSource;
+		Mp3agicInputSource mp3InputSource = new Mp3agicInputSource(byteChannel);
+
 		try {
-			Mp3File mp3File = new Mp3File(inputSource, 100, true);
+			Mp3File mp3File = new Mp3File(mp3InputSource, 100, true);
 			return Mp3FileParser.parse(mp3File);
 		} catch (UnsupportedTagException e) {
 			// TODO Auto-generated catch block

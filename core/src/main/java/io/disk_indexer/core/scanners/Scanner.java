@@ -1,6 +1,5 @@
 package io.disk_indexer.core.scanners;
 
-import java.nio.channels.SeekableByteChannel;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,22 +45,16 @@ public abstract class Scanner {
 	}
 
 	protected void invokeStreamListeners(Entry entry, Object tag) throws StreamListenerFailedException {
-		SeekableByteChannel byteChannel = null;
-
 		for (StreamListener streamListener : this.streamListeners) {
-			if (streamListener.needsStream(entry)) {
-				if (byteChannel == null) {
-					byteChannel = obtainStream(tag);
-				}
+			StreamListenerInputType inputType = streamListener.needsStream(entry);
 
-				if (byteChannel != null) {
-					streamListener.receiveStream(entry, byteChannel);
-				}
+			if (inputType != null) {
+				streamListener.receiveStream(entry, obtainStream(inputType, tag));
 			}
 		}
 	}
 
-	protected abstract SeekableByteChannel obtainStream(Object tag);
+	protected abstract Object obtainStream(StreamListenerInputType inputType, Object tag);
 
 	public abstract void scan(Collection collection, String path) throws ScannerFailedException;
 }

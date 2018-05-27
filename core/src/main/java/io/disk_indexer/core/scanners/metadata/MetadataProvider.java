@@ -1,12 +1,13 @@
 package io.disk_indexer.core.scanners.metadata;
 
-import java.nio.channels.SeekableByteChannel;
-
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.Metadata;
+import io.disk_indexer.core.scanners.StreamListenerInputType;
 
 public interface MetadataProvider {
+	StreamListenerInputType getInputType();
+
 	String[] getSupportedExtensions();
 
-	Iterable<Metadata> process(Entry entry, SeekableByteChannel byteChannel);
+	Iterable<Metadata> process(Entry entry, Object inputSource);
 }
