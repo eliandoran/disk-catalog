@@ -65,13 +65,13 @@ public class Mp3FileParser {
 			addMetaIfNotNull(metadata, MusicMetadata.URL, tags.getUrl());
 		}
 
-		metadata.add(new Metadata(MusicMetadata.TRACK.getKey(), track));
-		metadata.add(new Metadata(MusicMetadata.ARTIST.getKey(), artist));
-		metadata.add(new Metadata(MusicMetadata.TITLE.getKey(), title));
-		metadata.add(new Metadata(MusicMetadata.ALBUM.getKey(), album));
-		metadata.add(new Metadata(MusicMetadata.YEAR.getKey(), year));
-		metadata.add(new Metadata(MusicMetadata.GENRE.getKey(), genre));
-		metadata.add(new Metadata(MusicMetadata.COMMENT.getKey(), comment));
+		addMetaIfNotNull(metadata, MusicMetadata.TRACK, track);
+		addMetaIfNotNull(metadata, MusicMetadata.ARTIST, artist);
+		addMetaIfNotNull(metadata, MusicMetadata.TITLE, title);
+		addMetaIfNotNull(metadata, MusicMetadata.ALBUM, album);
+		addMetaIfNotNull(metadata, MusicMetadata.YEAR, year);
+		addMetaIfNotNull(metadata, MusicMetadata.GENRE, genre);
+		addMetaIfNotNull(metadata, MusicMetadata.COMMENT, comment);
 
 		return metadata;
 	}
