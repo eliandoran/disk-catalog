@@ -1,7 +1,10 @@
 package io.disk_indexer.core.scanners.metadata.music;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.mpatric.mp3agic.ID3v1;
 import com.mpatric.mp3agic.ID3v2;
@@ -16,70 +19,52 @@ public class Mp3FileParser {
 
 	public static Iterable<Metadata> parse(Mp3File mp3) {
 		List<Metadata> metadata = new LinkedList<>();
+		Map<MusicMetadata, String> fields = new HashMap<>();
 
-		long duration = mp3.getLengthInSeconds();
-		metadata.add(new Metadata(MusicMetadata.DURATION.getKey(), String.valueOf(duration)));
+		addMetaIfNotNull(fields, MusicMetadata.DURATION, mp3.getLengthInSeconds());
+		addMetaIfNotNull(fields, MusicMetadata.BITRATE, mp3.getBitrate());
+		addMetaIfNotNull(fields, MusicMetadata.SAMPLE_RATE, mp3.getSampleRate());
 
-		int bitRate = mp3.getBitrate();
-		metadata.add(new Metadata(MusicMetadata.BITRATE.getKey(), String.valueOf(bitRate)));
+		for (ID3v1 tags : new ID3v1[] { mp3.getId3v1Tag(), mp3.getId3v2Tag() }) {
+			if (tags == null) {
+				continue;
+			}
 
-		int sampleRate = mp3.getSampleRate();
-		metadata.add(new Metadata(MusicMetadata.SAMPLE_RATE.getKey(), String.valueOf(sampleRate)));
-
-		String track = null;
-		String artist = null;
-		String title = null;
-		String album = null;
-		String year = null;
-		String genre = null;
-		String comment = null;
-
-		if (mp3.hasId3v1Tag()) {
-			ID3v1 tags = mp3.getId3v1Tag();
-
-			track = tags.getTrack();
-			artist = tags.getArtist();
-			title = tags.getTitle();
-			album = tags.getAlbum();
-			year = tags.getYear();
-			genre = (!tags.getGenreDescription().isEmpty() ? tags.getGenreDescription() : genre);
-			comment = tags.getComment();
+			addMetaIfNotNull(fields, MusicMetadata.TRACK, tags.getTrack());
+			addMetaIfNotNull(fields, MusicMetadata.ARTIST, tags.getArtist());
+			addMetaIfNotNull(fields, MusicMetadata.TITLE, tags.getTitle());
+			addMetaIfNotNull(fields, MusicMetadata.ALBUM, tags.getAlbum());
+			addMetaIfNotNull(fields, MusicMetadata.YEAR, tags.getYear());
+			addMetaIfNotNull(fields, MusicMetadata.GENRE, tags.getGenreDescription());
+			addMetaIfNotNull(fields, MusicMetadata.COMMENT, tags.getComment());
 		}
 
 		if (mp3.hasId3v2Tag()) {
 			ID3v2 tags = mp3.getId3v2Tag();
 
-			track = (!tags.getTrack().isEmpty() ? tags.getTrack() : track);
-			artist = (!tags.getArtist().isEmpty() ? tags.getArtist() : artist);
-			title = (!tags.getTitle().isEmpty() ? tags.getTitle() : title);
-			album = (!tags.getAlbum().isEmpty() ? tags.getAlbum() : album);
-			year = (!tags.getYear().isEmpty() ? tags.getYear() : year);
-			genre = (!tags.getGenreDescription().isEmpty() ? tags.getGenreDescription() : genre);
-			comment = (!tags.getComment().isEmpty() ? tags.getComment() : comment);
-
-			addMetaIfNotNull(metadata, MusicMetadata.COMPOSER, tags.getComposer());
-			addMetaIfNotNull(metadata, MusicMetadata.PUBLISHER, tags.getPublisher());
-			addMetaIfNotNull(metadata, MusicMetadata.ORIGINAL_ARTIST, tags.getOriginalArtist());
-			addMetaIfNotNull(metadata, MusicMetadata.ALBUM_ARTIST, tags.getAlbumArtist());
-			addMetaIfNotNull(metadata, MusicMetadata.COPYRIGHT, tags.getCopyright());
-			addMetaIfNotNull(metadata, MusicMetadata.URL, tags.getUrl());
+			addMetaIfNotNull(fields, MusicMetadata.COMPOSER, tags.getComposer());
+			addMetaIfNotNull(fields, MusicMetadata.PUBLISHER, tags.getPublisher());
+			addMetaIfNotNull(fields, MusicMetadata.ORIGINAL_ARTIST, tags.getOriginalArtist());
+			addMetaIfNotNull(fields, MusicMetadata.ALBUM_ARTIST, tags.getAlbumArtist());
+			addMetaIfNotNull(fields, MusicMetadata.COPYRIGHT, tags.getCopyright());
+			addMetaIfNotNull(fields, MusicMetadata.URL, tags.getUrl());
 		}
 
-		addMetaIfNotNull(metadata, MusicMetadata.TRACK, track);
-		addMetaIfNotNull(metadata, MusicMetadata.ARTIST, artist);
-		addMetaIfNotNull(metadata, MusicMetadata.TITLE, title);
-		addMetaIfNotNull(metadata, MusicMetadata.ALBUM, album);
-		addMetaIfNotNull(metadata, MusicMetadata.YEAR, year);
-		addMetaIfNotNull(metadata, MusicMetadata.GENRE, genre);
-		addMetaIfNotNull(metadata, MusicMetadata.COMMENT, comment);
+		for (Entry<MusicMetadata, String> field : fields.entrySet()) {
+			metadata.add(new Metadata(field.getKey().getKey(), field.getValue()));
+		}
 
 		return metadata;
 	}
 
-	private static void addMetaIfNotNull(List<Metadata> metadataList, MusicMetadata key, String value) {
+	private static void addMetaIfNotNull(Map<MusicMetadata, String> fields, MusicMetadata key, String value) {
 		if (value == null || value.isEmpty())
 			return;
 
-		metadataList.add(new Metadata(key.getKey(), value.toString()));
+		fields.put(key, value);
+	}
+
+	private static void addMetaIfNotNull(Map<MusicMetadata, String> fields, MusicMetadata key, Object value) {
+		addMetaIfNotNull(fields, key, value.toString());
 	}
 }
