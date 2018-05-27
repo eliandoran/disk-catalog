@@ -9,6 +9,12 @@ import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
+import io.disk_indexer.core.dao.FileSystemConnectionManager;
+import io.disk_indexer.core.dao.impl.SqliteConnectionManager;
+import io.disk_indexer.core.exceptions.ConnectionFailedException;
+import io.disk_indexer.core.exceptions.InitializationFailedException;
+import io.disk_indexer.core.exceptions.PersistenceFailureException;
+import io.disk_indexer.core.model.Collection;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -29,9 +35,29 @@ public class SampleController {
 	@FXML
 	private JFXTreeTableColumn<Person, Integer> entryDateModifiedColumn;
 
+	private FileSystemConnectionManager connectionManager;
+
 	@PostConstruct
 	public void init() {
-		System.out.println("Hello world.");
+		try {
+			this.connectionManager = new SqliteConnectionManager();
+			this.connectionManager.connect("/home/elian/db.sqlite");
+
+			Iterable<Collection> collections = this.connectionManager.getCollectionDao().readAll();
+
+			for (Collection collection : collections) {
+				System.out.println(collection.getTitle());
+			}
+		} catch (ConnectionFailedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InitializationFailedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PersistenceFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		setupCellValueFactory(this.entryNameColumn, Person::firstNameProperty);
 		setupCellValueFactory(this.entrySizeColumn, Person::lastNameProperty);

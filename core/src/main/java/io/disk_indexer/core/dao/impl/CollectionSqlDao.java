@@ -1,8 +1,11 @@
 package io.disk_indexer.core.dao.impl;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.LinkedList;
+import java.util.List;
 
 import io.disk_indexer.core.dao.ConnectionManager;
 import io.disk_indexer.core.dao.generic.CollectionDao;
@@ -40,6 +43,34 @@ public class CollectionSqlDao implements CollectionDao {
 		} catch (SQLException e) {
 			throw new PersistenceFailureException(e);
 		}
+	}
+
+	@Override
+	public Iterable<Collection> readAll() throws PersistenceFailureException {
+		final String listCollectionsSQL = "SELECT `collectionId`, `rootEntryId`, `title` FROM `Collections`";
+		List<Collection> collectionsList = new LinkedList<>();
+
+		try {
+			PreparedStatement listCollectionsStmt = this.connectionManager.getConnection().prepareStatement(listCollectionsSQL);
+			ResultSet result = listCollectionsStmt.executeQuery();
+			Collection parsedCollection = parse(result);
+			collectionsList.add(parsedCollection);
+		} catch (SQLException e) {
+			throw new PersistenceFailureException(e);
+		}
+
+		return collectionsList;
+	}
+
+	private Collection parse(ResultSet resultSet) throws SQLException {
+		Collection newCollection = new Collection();
+		int paramIndex = 1;
+		newCollection.setId(resultSet.getInt(paramIndex++));
+		newCollection.setRootEntry(null);
+		paramIndex++;
+		newCollection.setTitle(resultSet.getString(paramIndex++));
+
+		return newCollection;
 	}
 
 	@Override
