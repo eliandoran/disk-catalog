@@ -3,6 +3,8 @@ package io.disk_indexer.core.scanners.listeners;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.disk_indexer.core.dao.exceptions.MetadataProviderFailedException;
+import io.disk_indexer.core.dao.exceptions.StreamListenerFailedException;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.EntryTypes;
 import io.disk_indexer.core.model.Metadata;
@@ -50,12 +52,16 @@ public class MetadataStreamListener implements StreamListener {
 	}
 
 	@Override
-	public void receiveStream(Entry entry, Object inputSource) {
+	public void receiveStream(Entry entry, Object inputSource) throws StreamListenerFailedException {
 		if (this.lastProvider == null)
 			throw new RuntimeException("Last provider is null. This shouldn't have happened.");
 
-		Iterable<Metadata> metadata = this.lastProvider.process(entry, inputSource);
-		entry.addMetadata(metadata);
+		try {
+			Iterable<Metadata> metadata = this.lastProvider.process(entry, inputSource);
+			entry.addMetadata(metadata);
+		} catch (MetadataProviderFailedException e) {
+			throw new StreamListenerFailedException(e);
+		}
 
 		this.lastProvider = null;
 	}

@@ -16,6 +16,7 @@ import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.jpeg.JpegDirectory;
 import com.drew.metadata.png.PngDirectory;
 
+import io.disk_indexer.core.dao.exceptions.MetadataProviderFailedException;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.Metadata;
 import io.disk_indexer.core.scanners.StreamListenerInputType;
@@ -75,7 +76,7 @@ public class ImageMetadataProvider implements MetadataProvider {
 	}
 
 	@Override
-	public Iterable<Metadata> process(Entry entry, Object inputSource) {
+	public Iterable<Metadata> process(Entry entry, Object inputSource) throws MetadataProviderFailedException {
 		List<Metadata> metadata = new LinkedList<>();
 
 		InputStream inputStream = (InputStream)inputSource;
@@ -84,12 +85,6 @@ public class ImageMetadataProvider implements MetadataProvider {
 
 			for (Directory directory : tags.getDirectories()) {
 				if (!desiredDirectories.contains(directory.getClass())) {
-					System.out.println("Skipped " + directory.getName() + ": " + directory.getClass().getName());
-
-					for (Tag tag : directory.getTags()) {
-						System.out.println(tag);
-					}
-
 					continue;
 				}
 
@@ -100,15 +95,11 @@ public class ImageMetadataProvider implements MetadataProvider {
 
 					if (correspondingMeta != null && !value.isEmpty()) {
 						metadata.add(new Metadata(correspondingMeta.getKey(), value));
-						System.out.println("Added " + tag.getTagName() + " " + tag.getDescription());
-					} else {
-						System.out.println("Skipped " + tag.getTagName() + " " + tag.getDescription());
 					}
 				}
 			}
 		} catch (ImageProcessingException | IOException e) {
-			e.printStackTrace();
-			return null;
+			throw new MetadataProviderFailedException(e);
 		}
 
 		return metadata;
