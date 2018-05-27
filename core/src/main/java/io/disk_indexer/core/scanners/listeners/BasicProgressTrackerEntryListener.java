@@ -2,7 +2,7 @@ package io.disk_indexer.core.scanners.listeners;
 
 import java.io.PrintStream;
 
-import io.disk_indexer.core.exceptions.EntryListenerFailedException;
+import io.disk_indexer.core.exceptions.ScannerListenerFailedException;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.scanners.EntryListener;
 
@@ -21,14 +21,14 @@ public class BasicProgressTrackerEntryListener implements EntryListener {
 	}
 
 	@Override
-	public void onScanStarted() throws EntryListenerFailedException {
+	public void onScanStarted() throws ScannerListenerFailedException {
 		this.outputStream.println("Scan started.");
 		this.startTime = System.nanoTime();
 		this.entryCount = 0;
 	}
 
 	@Override
-	public void processEntry(Entry entry) throws EntryListenerFailedException {
+	public void processEntry(Entry entry) throws ScannerListenerFailedException {
 		this.entryCount++;
 
 		if (this.entryCount % 500 == 0) {
@@ -37,7 +37,7 @@ public class BasicProgressTrackerEntryListener implements EntryListener {
 	}
 
 	@Override
-	public void onScanComplete() throws EntryListenerFailedException {
+	public void onScanComplete() throws ScannerListenerFailedException {
 		this.outputStream.println("\nScan completed in " + ((System.nanoTime() - this.startTime) / 1000000) + " ms.");
 		this.outputStream.println("Total number of files: " + this.entryCount);
 	}

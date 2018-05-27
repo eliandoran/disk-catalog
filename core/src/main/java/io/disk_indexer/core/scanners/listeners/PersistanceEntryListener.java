@@ -3,7 +3,7 @@ package io.disk_indexer.core.scanners.listeners;
 import java.sql.SQLException;
 
 import io.disk_indexer.core.dao.ConnectionManager;
-import io.disk_indexer.core.exceptions.EntryListenerFailedException;
+import io.disk_indexer.core.exceptions.ScannerListenerFailedException;
 import io.disk_indexer.core.exceptions.PersistenceFailureException;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.Metadata;
@@ -27,7 +27,7 @@ public class PersistanceEntryListener implements EntryListener {
 	}
 
 	@Override
-	public void processEntry(Entry entry) throws EntryListenerFailedException {
+	public void processEntry(Entry entry) throws ScannerListenerFailedException {
 		try {
 			int index = this.connectionManager.getEntryDao().create(entry);
 			entry.setId(Integer.valueOf(index));
@@ -38,16 +38,16 @@ public class PersistanceEntryListener implements EntryListener {
 				}
 			}
 		} catch (PersistenceFailureException e) {
-			throw new EntryListenerFailedException(e);
+			throw new ScannerListenerFailedException(e);
 		}
 	}
 
 	@Override
-	public void onScanComplete() throws EntryListenerFailedException {
+	public void onScanComplete() throws ScannerListenerFailedException {
 		try {
 			this.connectionManager.getConnection().commit();
 		} catch (SQLException e) {
-			throw new EntryListenerFailedException(e);
+			throw new ScannerListenerFailedException(e);
 		}
 	}
 }

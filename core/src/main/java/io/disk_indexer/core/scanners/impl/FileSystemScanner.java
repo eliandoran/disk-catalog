@@ -7,9 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-import io.disk_indexer.core.exceptions.EntryListenerFailedException;
+import io.disk_indexer.core.exceptions.ScannerListenerFailedException;
 import io.disk_indexer.core.exceptions.ScannerFailedException;
-import io.disk_indexer.core.exceptions.StreamListenerFailedException;
 import io.disk_indexer.core.model.Collection;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.EntryTypes;
@@ -27,12 +26,12 @@ public class FileSystemScanner extends Scanner {
 			beforeScan();
 			doScan(null, path);
 			afterScan();
-		} catch (EntryListenerFailedException | StreamListenerFailedException e) {
+		} catch (ScannerListenerFailedException e) {
 			throw new ScannerFailedException(e);
 		}
 	}
 
-	private void doScan(Entry parentEntry, String path) throws EntryListenerFailedException, StreamListenerFailedException {
+	private void doScan(Entry parentEntry, String path) throws ScannerListenerFailedException {
 		File root = new File(path);
 		Entry rootEntry;
 

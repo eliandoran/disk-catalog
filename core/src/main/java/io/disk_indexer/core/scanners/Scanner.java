@@ -2,9 +2,8 @@ package io.disk_indexer.core.scanners;
 
 import java.util.TreeSet;
 
-import io.disk_indexer.core.exceptions.EntryListenerFailedException;
+import io.disk_indexer.core.exceptions.ScannerListenerFailedException;
 import io.disk_indexer.core.exceptions.ScannerFailedException;
-import io.disk_indexer.core.exceptions.StreamListenerFailedException;
 import io.disk_indexer.core.model.Collection;
 import io.disk_indexer.core.model.Entry;
 
@@ -30,7 +29,7 @@ public abstract class Scanner {
 		this.listeners.add(listener);
 	}
 
-	protected void beforeScan() throws EntryListenerFailedException {
+	protected void beforeScan() throws ScannerListenerFailedException {
 		for (ScannerListener listener : this.listeners) {
 			if (listener instanceof EntryListener) {
 				EntryListener entryListener = (EntryListener)listener;
@@ -43,7 +42,7 @@ public abstract class Scanner {
 		System.out.println();
 	}
 
-	protected void afterScan() throws EntryListenerFailedException {
+	protected void afterScan() throws ScannerListenerFailedException {
 		for (ScannerListener listener : this.listeners) {
 			if (listener instanceof EntryListener) {
 				EntryListener entryListener = (EntryListener)listener;
@@ -52,7 +51,7 @@ public abstract class Scanner {
 		}
 	}
 
-	protected void invokeListeners(Entry entry, Object tag) throws EntryListenerFailedException, StreamListenerFailedException {
+	protected void invokeListeners(Entry entry, Object tag) throws ScannerListenerFailedException {
 		for (ScannerListener listener : this.listeners) {
 			if (listener instanceof EntryListener) {
 				EntryListener entryListener = (EntryListener)listener;

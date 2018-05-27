@@ -1,12 +1,12 @@
 package io.disk_indexer.core.scanners;
 
-import io.disk_indexer.core.exceptions.EntryListenerFailedException;
+import io.disk_indexer.core.exceptions.ScannerListenerFailedException;
 import io.disk_indexer.core.model.Entry;
 
 public interface EntryListener extends ScannerListener {
-	void onScanStarted() throws EntryListenerFailedException;
+	void onScanStarted() throws ScannerListenerFailedException;
 
-	void processEntry(Entry entry) throws EntryListenerFailedException;
+	void processEntry(Entry entry) throws ScannerListenerFailedException;
 
-	void onScanComplete() throws EntryListenerFailedException;
+	void onScanComplete() throws ScannerListenerFailedException;
 }
