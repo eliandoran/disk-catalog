@@ -11,7 +11,7 @@ import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.Metadata;
 import io.disk_indexer.core.scanners.metadata.SeekableByteChannelMetadataProvider;
 
-public class Id3 implements SeekableByteChannelMetadataProvider {
+public class Mp3MetadataProvider implements SeekableByteChannelMetadataProvider {
 	@Override
 	public String[] getSupportedExtensions() {
 		return new String[] { "mp3" };
