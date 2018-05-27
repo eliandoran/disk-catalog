@@ -9,6 +9,7 @@ import io.disk_indexer.core.scanners.impl.FileSystemScanner;
 import io.disk_indexer.core.scanners.listeners.BasicProgressTrackerEntryListener;
 import io.disk_indexer.core.scanners.listeners.MetadataStreamListener;
 import io.disk_indexer.core.scanners.listeners.PersistanceEntryListener;
+import io.disk_indexer.core.scanners.metadata.image.JpegMetadataProvider;
 import io.disk_indexer.core.scanners.metadata.music.Id3;
 
 public class Tester {
@@ -28,12 +29,13 @@ public class Tester {
 
 			MetadataStreamListener metadataStreamListener = new MetadataStreamListener();
 			metadataStreamListener.addProvider(new Id3());
+			metadataStreamListener.addProvider(new JpegMetadataProvider());
 
 			FileSystemScanner scanner = new FileSystemScanner();
 			scanner.addEntryListener(new PersistanceEntryListener(connectionManager));
 			scanner.addEntryListener(new BasicProgressTrackerEntryListener(System.out));
 			scanner.addStreamListener(metadataStreamListener);
-			scanner.scan(collection, "/run/media/elian/Elian D./Music/Fallout 3 Soundtrack");
+			scanner.scan(collection, "/run/media/elian/Elian D./Photos/a/Camera Uploads");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
