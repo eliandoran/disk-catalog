@@ -2,10 +2,8 @@ package io.disk_indexer.core.scanners.metadata.image;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
@@ -24,29 +22,11 @@ import io.disk_indexer.core.scanners.metadata.InputStreamMetadataProvider;
 public class ImageMetadataProvider implements InputStreamMetadataProvider {
 	private static List<Class<?>> desiredDirectories = new LinkedList<>();
 
-	private static Map<String, ImageMetadata> mappings = new HashMap<>();
-
 	static {
 		desiredDirectories.add(JpegDirectory.class);
 		desiredDirectories.add(PngDirectory.class);
 		desiredDirectories.add(ExifIFD0Directory.class);
 		desiredDirectories.add(ExifSubIFDDirectory.class);
-
-		mappings.put("Image Width", ImageMetadata.WIDTH);
-		mappings.put("Image Height", ImageMetadata.HEIGHT);
-		mappings.put("Make", ImageMetadata.MAKE);
-		mappings.put("Model", ImageMetadata.MODEL);
-		mappings.put("Software", ImageMetadata.SOFTWARE);
-		mappings.put("Textual Data - Software", ImageMetadata.SOFTWARE);
-		mappings.put("Date/Time", ImageMetadata.DATETIME);
-		mappings.put("Artist", ImageMetadata.ARTIST);
-		mappings.put("Copyright", ImageMetadata.COPYRIGHT);
-		mappings.put("Exposure Time", ImageMetadata.EXPOSURE);
-		mappings.put("F-Number", ImageMetadata.F_NUMBER);
-		mappings.put("ISO Speed Ratings", ImageMetadata.ISO_SPEED);
-		mappings.put("Date/Time Original", ImageMetadata.DATETIME_ORIGINAL);
-		mappings.put("Date/Time Digitized", ImageMetadata.DATETIME_DIGITIZED);
-		mappings.put("Shutter Speed Value", ImageMetadata.SHUTTER_SPEED);
 	}
 
 	@Override
@@ -82,8 +62,7 @@ public class ImageMetadataProvider implements InputStreamMetadataProvider {
 				}
 
 				for (Tag tag : directory.getTags()) {
-					ImageMetadata correspondingMeta = mappings.get(tag.getTagName());
-
+					ImageMetadata correspondingMeta = ImageMetadata.mapTag(tag.getTagName());
 					String value = (tag.getDescription() != null ? tag.getDescription().trim() : "");
 
 					if (correspondingMeta != null && !value.isEmpty()) {
