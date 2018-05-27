@@ -28,6 +28,11 @@ public class MetadataStreamListener implements StreamListener {
 	}
 
 	@Override
+	public int getPriority() {
+		return 10;
+	}
+
+	@Override
 	public StreamListenerInputType needsStream(Entry entry) {
 		if (entry.getEntryType() != EntryTypes.File)
 			return null;

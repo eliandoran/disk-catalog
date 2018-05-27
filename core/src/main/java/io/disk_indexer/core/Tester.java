@@ -32,10 +32,10 @@ public class Tester {
 			metadataStreamListener.addProvider(new ImageMetadataProvider());
 
 			FileSystemScanner scanner = new FileSystemScanner();
-			scanner.addEntryListener(new PersistanceEntryListener(connectionManager));
-			scanner.addEntryListener(new BasicProgressTrackerEntryListener(System.out));
-			scanner.addStreamListener(metadataStreamListener);
-			scanner.scan(collection, "/run/media/elian/Elian D./Photos/a/Camera Uploads");
+			scanner.addListener(new PersistanceEntryListener(connectionManager));
+			scanner.addListener(new BasicProgressTrackerEntryListener(System.out));
+			scanner.addListener(metadataStreamListener);
+			scanner.scan(collection, "/run/media/elian/Elian D./MiniTest");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;

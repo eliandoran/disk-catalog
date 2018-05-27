@@ -24,11 +24,9 @@ public class FileSystemScanner extends Scanner {
 		this.collection = collection;
 
 		try {
-			invokeEntryListenerOnStart();
-
+			beforeScan();
 			doScan(null, path);
-
-			invokeEntryListenerOnComplete();
+			afterScan();
 		} catch (EntryListenerFailedException | StreamListenerFailedException e) {
 			throw new ScannerFailedException(e);
 		}
@@ -50,8 +48,7 @@ public class FileSystemScanner extends Scanner {
 		rootEntry.setParentEntry(parentEntry);
 		rootEntry.setCollection(this.collection);
 
-		invokeStreamListeners(rootEntry, path);
-		invokeEntryListeners(rootEntry);
+		invokeListeners(rootEntry, path);
 
 		if (root.isDirectory()) {
 			for (File child : root.listFiles()) {

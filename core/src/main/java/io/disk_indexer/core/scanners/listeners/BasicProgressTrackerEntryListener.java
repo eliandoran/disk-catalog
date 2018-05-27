@@ -10,30 +10,35 @@ public class BasicProgressTrackerEntryListener implements EntryListener {
 	private PrintStream outputStream;
 	private long startTime;
 	private long entryCount;
-	
+
 	public BasicProgressTrackerEntryListener(PrintStream outputStream) {
 		this.outputStream = outputStream;
 	}
-	
+
+	@Override
+	public int getPriority() {
+		return 0;
+	}
+
 	@Override
 	public void onScanStarted() throws EntryListenerFailedException {
-		outputStream.println("Scan started.");
-		startTime = System.nanoTime();
-		entryCount = 0;
+		this.outputStream.println("Scan started.");
+		this.startTime = System.nanoTime();
+		this.entryCount = 0;
 	}
 
 	@Override
 	public void processEntry(Entry entry) throws EntryListenerFailedException {
-		entryCount++;
-		
-		if (entryCount % 500 == 0) {
-			outputStream.println("Processed: " + entryCount);
+		this.entryCount++;
+
+		if (this.entryCount % 500 == 0) {
+			this.outputStream.println("Processed: " + this.entryCount);
 		}
 	}
 
 	@Override
 	public void onScanComplete() throws EntryListenerFailedException {
-		outputStream.println("\nScan completed in " + ((System.nanoTime() - startTime) / 1000000) + " ms.");
-		outputStream.println("Total number of files: " + entryCount);
+		this.outputStream.println("\nScan completed in " + ((System.nanoTime() - this.startTime) / 1000000) + " ms.");
+		this.outputStream.println("Total number of files: " + this.entryCount);
 	}
 }

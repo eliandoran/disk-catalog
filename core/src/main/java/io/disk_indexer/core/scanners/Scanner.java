@@ -1,7 +1,6 @@
 package io.disk_indexer.core.scanners;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.TreeSet;
 
 import io.disk_indexer.core.exceptions.EntryListenerFailedException;
 import io.disk_indexer.core.exceptions.ScannerFailedException;
@@ -18,49 +17,53 @@ import io.disk_indexer.core.model.Entry;
  * simply iterate over all the files without any further action.
  */
 public abstract class Scanner {
-	private List<EntryListener> entryListeners;
-	private List<StreamListener> streamListeners;
+	private TreeSet<ScannerListener> listeners;
 
 	/**
 	 * Creates a new scanner.
 	 */
 	public Scanner() {
-		this.entryListeners = new LinkedList<>();
-		this.streamListeners = new LinkedList<>();
+		this.listeners = new TreeSet<>(new ScannerListenerPriorityComparator());
 	}
 
-	public void addEntryListener(EntryListener entryListener) {
-		this.entryListeners.add(entryListener);
+	public void addListener(ScannerListener listener) {
+		this.listeners.add(listener);
 	}
 
-	protected void invokeEntryListenerOnStart() throws EntryListenerFailedException {
-		for (EntryListener entryListener : this.entryListeners) {
-			entryListener.onScanStarted();
+	protected void beforeScan() throws EntryListenerFailedException {
+		for (ScannerListener listener : this.listeners) {
+			if (listener instanceof EntryListener) {
+				EntryListener entryListener = (EntryListener)listener;
+				entryListener.onScanStarted();
+			}
+
+			System.out.println(listener.getClass().getName() + " ");
+		}
+
+		System.out.println();
+	}
+
+	protected void afterScan() throws EntryListenerFailedException {
+		for (ScannerListener listener : this.listeners) {
+			if (listener instanceof EntryListener) {
+				EntryListener entryListener = (EntryListener)listener;
+				entryListener.onScanComplete();
+			}
 		}
 	}
 
-	protected void invokeEntryListenerOnComplete() throws EntryListenerFailedException {
-		for (EntryListener entryListener : this.entryListeners) {
-			entryListener.onScanComplete();
-		}
-	}
+	protected void invokeListeners(Entry entry, Object tag) throws EntryListenerFailedException, StreamListenerFailedException {
+		for (ScannerListener listener : this.listeners) {
+			if (listener instanceof EntryListener) {
+				EntryListener entryListener = (EntryListener)listener;
+				entryListener.processEntry(entry);
+			} else if (listener instanceof StreamListener) {
+				StreamListener streamListener = (StreamListener)listener;
+				StreamListenerInputType inputType = streamListener.needsStream(entry);
 
-	protected void invokeEntryListeners(Entry entry) throws EntryListenerFailedException {
-		for (EntryListener entryListener : this.entryListeners) {
-			entryListener.processEntry(entry);
-		}
-	}
-
-	public void addStreamListener(StreamListener streamListener) {
-		this.streamListeners.add(streamListener);
-	}
-
-	protected void invokeStreamListeners(Entry entry, Object tag) throws StreamListenerFailedException {
-		for (StreamListener streamListener : this.streamListeners) {
-			StreamListenerInputType inputType = streamListener.needsStream(entry);
-
-			if (inputType != null) {
-				streamListener.receiveStream(entry, obtainStream(inputType, tag));
+				if (inputType != null) {
+					streamListener.receiveStream(entry, obtainStream(inputType, tag));
+				}
 			}
 		}
 	}

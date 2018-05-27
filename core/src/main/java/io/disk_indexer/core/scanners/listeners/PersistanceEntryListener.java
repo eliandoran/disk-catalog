@@ -17,6 +17,11 @@ public class PersistanceEntryListener implements EntryListener {
 	}
 
 	@Override
+	public int getPriority() {
+		return 9999;
+	}
+
+	@Override
 	public void onScanStarted() {
 		// No action needed.
 	}
