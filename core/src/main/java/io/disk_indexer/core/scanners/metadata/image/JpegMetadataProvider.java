@@ -71,9 +71,10 @@ public class JpegMetadataProvider implements MetadataProvider {
 
 				for (Tag tag : directory.getTags()) {
 					ImageMetadata correspondingMeta = mappings.get(tag.getTagName());
+					String value = tag.getDescription().trim();
 
-					if (correspondingMeta != null) {
-						metadata.add(new Metadata(correspondingMeta.getKey(), tag.getDescription()));
+					if (correspondingMeta != null && !value.isEmpty()) {
+						metadata.add(new Metadata(correspondingMeta.getKey(), value));
 					}
 				}
 			}
