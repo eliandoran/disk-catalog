@@ -30,7 +30,7 @@ public class MetadataStreamListener implements StreamListener {
 		if (entry.getEntryType() != EntryTypes.File)
 			return null;
 
-		String extension = getFileExtension(entry.getName());
+		String extension = getFileExtension(entry.getName()).toLowerCase();
 
 		MetadataProvider provider = this.providers.get(extension);
 		if (provider != null) {
