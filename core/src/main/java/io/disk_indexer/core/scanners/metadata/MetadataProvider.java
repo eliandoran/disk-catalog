@@ -3,12 +3,9 @@ package io.disk_indexer.core.scanners.metadata;
 import io.disk_indexer.core.exceptions.MetadataProviderFailedException;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.Metadata;
-import io.disk_indexer.core.scanners.StreamListenerInputType;
 
-public interface MetadataProvider {
-	StreamListenerInputType getInputType();
-
+public interface MetadataProvider<StreamT> {
 	String[] getSupportedExtensions();
 
-	Iterable<Metadata> process(Entry entry, Object inputSource) throws MetadataProviderFailedException;
+	Iterable<Metadata> process(Entry entry, StreamT inputSource) throws MetadataProviderFailedException;
 }

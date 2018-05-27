@@ -3,14 +3,16 @@ package io.disk_indexer.core.scanners.listeners;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.disk_indexer.core.exceptions.ScannerListenerFailedException;
 import io.disk_indexer.core.exceptions.MetadataProviderFailedException;
+import io.disk_indexer.core.exceptions.ScannerListenerFailedException;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.EntryTypes;
 import io.disk_indexer.core.model.Metadata;
 import io.disk_indexer.core.scanners.StreamListener;
 import io.disk_indexer.core.scanners.StreamListenerInputType;
+import io.disk_indexer.core.scanners.metadata.InputStreamMetadataProvider;
 import io.disk_indexer.core.scanners.metadata.MetadataProvider;
+import io.disk_indexer.core.scanners.metadata.SeekableByteChannelMetadataProvider;
 
 public class MetadataStreamListener implements StreamListener {
 	private Map<String, MetadataProvider> providers;
@@ -39,13 +41,18 @@ public class MetadataStreamListener implements StreamListener {
 
 		String extension = getFileExtension(entry.getName()).toLowerCase();
 
-		MetadataProvider provider = this.providers.get(extension);
+		MetadataProvider<?> provider = this.providers.get(extension);
 		if (provider != null) {
 			System.out.println("Found provider for " + entry.getName() + ":" + provider.getClass().getName());
 			this.lastProvider = provider;
-			return provider.getInputType();
-		} else
-			return null;
+
+			if (provider instanceof InputStreamMetadataProvider)
+				return StreamListenerInputType.INPUT_STREAM;
+			else if (provider instanceof SeekableByteChannelMetadataProvider)
+				return StreamListenerInputType.SEEKABLE_BYTE_CHANNEL;
+		}
+
+		return null;
 	}
 
 	private String getFileExtension(String fileName) {

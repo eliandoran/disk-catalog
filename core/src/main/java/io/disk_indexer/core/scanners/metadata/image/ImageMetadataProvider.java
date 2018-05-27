@@ -19,10 +19,9 @@ import com.drew.metadata.png.PngDirectory;
 import io.disk_indexer.core.exceptions.MetadataProviderFailedException;
 import io.disk_indexer.core.model.Entry;
 import io.disk_indexer.core.model.Metadata;
-import io.disk_indexer.core.scanners.StreamListenerInputType;
-import io.disk_indexer.core.scanners.metadata.MetadataProvider;
+import io.disk_indexer.core.scanners.metadata.InputStreamMetadataProvider;
 
-public class ImageMetadataProvider implements MetadataProvider {
+public class ImageMetadataProvider implements InputStreamMetadataProvider {
 	private static List<Class<?>> desiredDirectories = new LinkedList<>();
 
 	private static Map<String, ImageMetadata> mappings = new HashMap<>();
@@ -51,11 +50,6 @@ public class ImageMetadataProvider implements MetadataProvider {
 	}
 
 	@Override
-	public StreamListenerInputType getInputType() {
-		return StreamListenerInputType.INPUT_STREAM;
-	}
-
-	@Override
 	public String[] getSupportedExtensions() {
 		return new String[] {
 				// JPEG
@@ -76,10 +70,9 @@ public class ImageMetadataProvider implements MetadataProvider {
 	}
 
 	@Override
-	public Iterable<Metadata> process(Entry entry, Object inputSource) throws MetadataProviderFailedException {
+	public Iterable<Metadata> process(Entry entry, InputStream inputStream) throws MetadataProviderFailedException {
 		List<Metadata> metadata = new LinkedList<>();
 
-		InputStream inputStream = (InputStream)inputSource;
 		try {
 			com.drew.metadata.Metadata tags = ImageMetadataReader.readMetadata(inputStream);
 
