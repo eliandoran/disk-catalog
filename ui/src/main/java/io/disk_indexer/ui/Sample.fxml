@@ -1,7 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import com.jfoenix.controls.JFXTreeTableColumn?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.BorderPane?>
-	
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.disk_indexer.ui.SampleController">
-	<!-- TODO Add Nodes -->
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+	<center>
+		<SplitPane dividerPositions="0.3" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+			<items>
+				<JFXListView fx:id="mainNavigation" />
+				<JFXTreeTableView fx:id="treeTableView">
+					<columns>
+						<JFXTreeTableColumn fx:id="entryNameColumn" minWidth="133" prefWidth="133" resizable="false" text="Name" />
+						<JFXTreeTableColumn fx:id="entrySizeColumn" minWidth="133" resizable="false" text="Size" />
+						<JFXTreeTableColumn fx:id="entryDateModifiedColumn" minWidth="133" resizable="false" text="Last Modified" />
+					</columns>
+				</JFXTreeTableView>
+			</items>
+		</SplitPane>
+	</center>
+	<top>
+		<JFXToolbar BorderPane.alignment="CENTER">
+			<center>
+				<Label text="Hello World" BorderPane.alignment="CENTER" />
+			</center>
+		</JFXToolbar>
+	</top>
 </BorderPane>
