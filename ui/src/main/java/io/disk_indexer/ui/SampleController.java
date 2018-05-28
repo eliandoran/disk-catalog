@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
+import com.jfoenix.controls.JFXTreeView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
@@ -22,9 +23,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 
 public class SampleController {
+	@FXML
+	private JFXTreeView<String> mainNavigation;
+
 	@FXML
 	private JFXTreeTableView<Person> treeTableView;
 
@@ -39,26 +44,45 @@ public class SampleController {
 
 	@PostConstruct
 	public void init() {
+		setupConnection();
+		setupTableView();
+		setupMainNavigation();
+	}
+
+	private void setupConnection() {
 		try {
 			this.connectionManager = new SqliteConnectionManager();
 			this.connectionManager.connect("/home/elian/db.sqlite");
-
-			Iterable<Collection> collections = this.connectionManager.getCollectionDao().readAll();
-
-			for (Collection collection : collections) {
-				System.out.println(collection.getTitle());
-			}
 		} catch (ConnectionFailedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InitializationFailedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	private void setupMainNavigation() {
+		TreeItem<String> rootNode = new TreeItem<>("Root");
+		rootNode.setExpanded(true);
+		this.mainNavigation.setRoot(rootNode);
+		this.mainNavigation.setShowRoot(false);
+
+		Iterable<Collection> collections;
+		try {
+			collections = this.connectionManager.getCollectionDao().readAll();
+
+			for (Collection collection : collections) {
+				TreeItem<String> collectionNode = new TreeItem<>(collection.getTitle());
+				rootNode.getChildren().add(collectionNode);
+			}
 		} catch (PersistenceFailureException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
 
+	private void setupTableView() {
 		setupCellValueFactory(this.entryNameColumn, Person::firstNameProperty);
 		setupCellValueFactory(this.entrySizeColumn, Person::lastNameProperty);
 		setupCellValueFactory(this.entryDateModifiedColumn, p -> p.age.asObject());
