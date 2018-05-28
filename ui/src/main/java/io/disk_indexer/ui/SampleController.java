@@ -16,6 +16,7 @@ import io.disk_indexer.core.exceptions.ConnectionFailedException;
 import io.disk_indexer.core.exceptions.InitializationFailedException;
 import io.disk_indexer.core.exceptions.PersistenceFailureException;
 import io.disk_indexer.core.model.Collection;
+import io.disk_indexer.ui.tree.CollectionTreeItem;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -73,7 +74,7 @@ public class SampleController {
 			collections = this.connectionManager.getCollectionDao().readAll();
 
 			for (Collection collection : collections) {
-				TreeItem<String> collectionNode = new TreeItem<>(collection.getTitle());
+				CollectionTreeItem collectionNode = new CollectionTreeItem(collection);
 				rootNode.getChildren().add(collectionNode);
 			}
 		} catch (PersistenceFailureException e) {
