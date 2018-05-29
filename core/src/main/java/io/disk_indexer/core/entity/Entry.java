@@ -1,18 +1,35 @@
 package io.disk_indexer.core.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import io.disk_indexer.core.model.EntryTypes;
 
 @Entity
+@Table(name="Entries")
 public class Entry extends EntityBase {
+	@Id
+	private int id;
 	private EntryTypes entryType;
 	private String name;
 	private long modificationDate;
 	private long size;
 
+	public Entry() {
+
+	}
+
 	public Entry(EntryTypes entryType) {
 		this.entryType = entryType;
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public EntryTypes getEntryType() {
