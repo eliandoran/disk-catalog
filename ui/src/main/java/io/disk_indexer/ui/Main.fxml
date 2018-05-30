@@ -8,7 +8,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.disk_indexer.ui.MainPresenter">
 	<center>
 		<SplitPane dividerPositions="0.3" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
 			<items>

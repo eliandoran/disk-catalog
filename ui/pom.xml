@@ -31,19 +31,15 @@
 			<version>8.0.4</version>
 		</dependency>
 		<dependency>
-			<groupId>io.datafx</groupId>
-			<artifactId>flow</artifactId>
-			<version>8.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>io.datafx</groupId>
-			<artifactId>datafx</artifactId>
-			<version>8.0.1</version>
-		</dependency>
-		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>javax.persistence-api</artifactId>
 			<version>2.2</version>
+		</dependency>
+		<dependency>
+            <groupId>com.airhacks</groupId>
+            <artifactId>afterburner.fx</artifactId>
+            <version>1.7.0</version>
+            <scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>

@@ -1,8 +1,9 @@
 package io.disk_indexer.ui;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.function.Function;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
 import com.jfoenix.controls.JFXTreeTableColumn;
@@ -21,10 +22,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 
-public class SampleController {
+public class MainPresenter implements Initializable {
 	@FXML
 	private JFXTreeView<String> mainNavigation;
 
@@ -40,8 +42,8 @@ public class SampleController {
 
 	private EntityManager entityManager;
 
-	@PostConstruct
-	public void init() {
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
 		setupConnection();
 		setupTableView();
 		setupMainNavigation();
