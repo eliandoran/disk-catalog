@@ -1,7 +1,7 @@
 package io.disk_indexer.core.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import io.disk_indexer.core.model.EntryTypes;
@@ -9,12 +9,16 @@ import io.disk_indexer.core.model.EntryTypes;
 @Entity
 @Table(name="Entries")
 public class Entry extends EntityBase {
-	@Id
-	private int id;
 	private EntryTypes entryType;
 	private String name;
 	private long modificationDate;
 	private long size;
+
+	@ManyToOne
+	private Entry parentEntry;
+
+	@ManyToOne
+	private Collection collection;
 
 	public Entry() {
 
@@ -22,14 +26,6 @@ public class Entry extends EntityBase {
 
 	public Entry(EntryTypes entryType) {
 		this.entryType = entryType;
-	}
-
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public EntryTypes getEntryType() {
@@ -62,5 +58,21 @@ public class Entry extends EntityBase {
 
 	public void setSize(long size) {
 		this.size = size;
+	}
+
+	public Entry getParentEntry() {
+		return this.parentEntry;
+	}
+
+	public void setParentEntry(Entry parentEntry) {
+		this.parentEntry = parentEntry;
+	}
+
+	public Collection getCollection() {
+		return this.collection;
+	}
+
+	public void setCollection(Collection collection) {
+		this.collection = collection;
 	}
 }
