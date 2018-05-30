@@ -1,8 +1,8 @@
 package io.disk_indexer.core.scanners.metadata;
 
+import io.disk_indexer.core.entity.Entry;
+import io.disk_indexer.core.entity.Metadata;
 import io.disk_indexer.core.exceptions.MetadataProviderFailedException;
-import io.disk_indexer.core.model.Entry;
-import io.disk_indexer.core.model.Metadata;
 
 public interface MetadataProvider<StreamT> {
 	String[] getSupportedExtensions();

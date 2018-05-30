@@ -14,9 +14,9 @@ import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.jpeg.JpegDirectory;
 import com.drew.metadata.png.PngDirectory;
 
+import io.disk_indexer.core.entity.Entry;
+import io.disk_indexer.core.entity.Metadata;
 import io.disk_indexer.core.exceptions.MetadataProviderFailedException;
-import io.disk_indexer.core.model.Entry;
-import io.disk_indexer.core.model.Metadata;
 import io.disk_indexer.core.scanners.metadata.InputStreamMetadataProvider;
 
 public class ImageMetadataProvider implements InputStreamMetadataProvider {

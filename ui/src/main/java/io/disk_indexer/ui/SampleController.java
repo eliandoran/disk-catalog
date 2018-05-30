@@ -12,10 +12,10 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import io.disk_indexer.core.dao.FileSystemConnectionManager;
 import io.disk_indexer.core.dao.impl.SqliteConnectionManager;
+import io.disk_indexer.core.entity.Collection;
 import io.disk_indexer.core.exceptions.ConnectionFailedException;
 import io.disk_indexer.core.exceptions.InitializationFailedException;
 import io.disk_indexer.core.exceptions.PersistenceFailureException;
-import io.disk_indexer.core.model.Collection;
 import io.disk_indexer.ui.tree.CollectionTreeItem;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;

@@ -1,7 +1,12 @@
 package io.disk_indexer.core.entity;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import io.disk_indexer.core.model.EntryTypes;
@@ -19,6 +24,9 @@ public class Entry extends EntityBase {
 
 	@ManyToOne
 	private Collection collection;
+
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Metadata> metadata;
 
 	public Entry() {
 
@@ -74,5 +82,23 @@ public class Entry extends EntityBase {
 
 	public void setCollection(Collection collection) {
 		this.collection = collection;
+	}
+
+	public List<Metadata> getMetadata() {
+		return this.metadata;
+	}
+
+	public void setMetadata(List<Metadata> metadata) {
+		this.metadata = metadata;
+	}
+
+	public void addMetadata(Iterable<Metadata> metadata) {
+		if (this.metadata == null) {
+			this.metadata = new LinkedList<>();
+		}
+
+		for (Metadata data : metadata) {
+			this.metadata.add(data);
+		}
 	}
 }

@@ -7,8 +7,8 @@ import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
 
-import io.disk_indexer.core.model.Entry;
-import io.disk_indexer.core.model.Metadata;
+import io.disk_indexer.core.entity.Entry;
+import io.disk_indexer.core.entity.Metadata;
 import io.disk_indexer.core.scanners.metadata.SeekableByteChannelMetadataProvider;
 
 public class Mp3MetadataProvider implements SeekableByteChannelMetadataProvider {

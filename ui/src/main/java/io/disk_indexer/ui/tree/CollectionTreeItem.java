@@ -1,6 +1,6 @@
 package io.disk_indexer.ui.tree;
 
-import io.disk_indexer.core.model.Collection;
+import io.disk_indexer.core.entity.Collection;
 import javafx.scene.control.TreeItem;
 
 public class CollectionTreeItem extends TreeItem<String> {

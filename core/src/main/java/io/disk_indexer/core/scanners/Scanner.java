@@ -2,10 +2,10 @@ package io.disk_indexer.core.scanners;
 
 import java.util.TreeSet;
 
-import io.disk_indexer.core.exceptions.ScannerListenerFailedException;
+import io.disk_indexer.core.entity.Collection;
+import io.disk_indexer.core.entity.Entry;
 import io.disk_indexer.core.exceptions.ScannerFailedException;
-import io.disk_indexer.core.model.Collection;
-import io.disk_indexer.core.model.Entry;
+import io.disk_indexer.core.exceptions.ScannerListenerFailedException;
 
 /**
  * A scanner is the central part of the indexer. Given a path of some sort on {@link #scan(Collection, String)}, it will recursively iterate through all the files available at the given path.

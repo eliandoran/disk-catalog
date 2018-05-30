@@ -10,7 +10,7 @@ import com.mpatric.mp3agic.ID3v1;
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.Mp3File;
 
-import io.disk_indexer.core.model.Metadata;
+import io.disk_indexer.core.entity.Metadata;
 
 public class Mp3FileParser {
 	private Mp3FileParser() {

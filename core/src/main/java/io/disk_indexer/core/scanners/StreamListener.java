@@ -1,7 +1,7 @@
 package io.disk_indexer.core.scanners;
 
+import io.disk_indexer.core.entity.Entry;
 import io.disk_indexer.core.exceptions.ScannerListenerFailedException;
-import io.disk_indexer.core.model.Entry;
 
 public interface StreamListener extends ScannerListener {
 	StreamListenerInputType needsStream(Entry entry) throws ScannerListenerFailedException;
