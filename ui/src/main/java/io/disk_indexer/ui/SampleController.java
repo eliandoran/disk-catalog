@@ -3,6 +3,7 @@ package io.disk_indexer.ui;
 import java.util.function.Function;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
 
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -10,12 +11,8 @@ import com.jfoenix.controls.JFXTreeView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
-import io.disk_indexer.core.dao.FileSystemConnectionManager;
-import io.disk_indexer.core.dao.impl.SqliteConnectionManager;
+import io.disk_indexer.core.Tester;
 import io.disk_indexer.core.entity.Collection;
-import io.disk_indexer.core.exceptions.ConnectionFailedException;
-import io.disk_indexer.core.exceptions.InitializationFailedException;
-import io.disk_indexer.core.exceptions.PersistenceFailureException;
 import io.disk_indexer.ui.tree.CollectionTreeItem;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -41,7 +38,7 @@ public class SampleController {
 	@FXML
 	private JFXTreeTableColumn<Person, Integer> entryDateModifiedColumn;
 
-	private FileSystemConnectionManager connectionManager;
+	private EntityManager entityManager;
 
 	@PostConstruct
 	public void init() {
@@ -51,16 +48,8 @@ public class SampleController {
 	}
 
 	private void setupConnection() {
-		try {
-			this.connectionManager = new SqliteConnectionManager();
-			this.connectionManager.connect("/home/elian/db.sqlite");
-		} catch (ConnectionFailedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InitializationFailedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Tester.main(null);
+		this.entityManager = Tester.entityManager;
 	}
 
 	private void setupMainNavigation() {
@@ -69,17 +58,11 @@ public class SampleController {
 		this.mainNavigation.setRoot(rootNode);
 		this.mainNavigation.setShowRoot(false);
 
-		Iterable<Collection> collections;
-		try {
-			collections = this.connectionManager.getCollectionDao().readAll();
+		Iterable<Collection> collections = this.entityManager.createQuery("from Collection", Collection.class).getResultList();
 
-			for (Collection collection : collections) {
-				CollectionTreeItem collectionNode = new CollectionTreeItem(collection);
-				rootNode.getChildren().add(collectionNode);
-			}
-		} catch (PersistenceFailureException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		for (Collection collection : collections) {
+			CollectionTreeItem collectionNode = new CollectionTreeItem(collection);
+			rootNode.getChildren().add(collectionNode);
 		}
 	}
 

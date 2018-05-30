@@ -13,10 +13,12 @@ import io.disk_indexer.core.scanners.metadata.image.ImageMetadataProvider;
 import io.disk_indexer.core.scanners.metadata.music.Mp3MetadataProvider;
 
 public class Tester {
+	public static EntityManagerFactory entityManagerFactory;
+	public static EntityManager entityManager;
 
 	public static void main(String[] args) {
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("core");
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		entityManagerFactory = Persistence.createEntityManagerFactory("core");
+		entityManager = entityManagerFactory.createEntityManager();
 
 		try {
 			Collection collection = new Collection("Music");
