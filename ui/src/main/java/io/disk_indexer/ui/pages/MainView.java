@@ -1,4 +1,4 @@
-package io.disk_indexer.ui;
+package io.disk_indexer.ui.pages;
 
 import com.airhacks.afterburner.views.FXMLView;
 

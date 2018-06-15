@@ -2,6 +2,7 @@ package io.disk_indexer.ui;
 
 import com.airhacks.afterburner.injection.Injector;
 
+import io.disk_indexer.ui.pages.MainView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

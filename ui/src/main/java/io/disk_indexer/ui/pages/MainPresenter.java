@@ -1,4 +1,4 @@
-package io.disk_indexer.ui;
+package io.disk_indexer.ui.pages;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,6 +13,7 @@ import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import io.disk_indexer.core.entity.Collection;
+import io.disk_indexer.ui.DataBridge;
 import io.disk_indexer.ui.tree.CollectionTreeItem;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
