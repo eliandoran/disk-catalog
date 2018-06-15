@@ -19,11 +19,6 @@ public class DirectoryTreeItem extends CachedTreeItem<String> {
 	}
 
 	@Override
-	public boolean determineIsLeaf() {
-		return this.entry.getChildEntries().isEmpty();
-	}
-
-	@Override
 	public ObservableList<TreeItem<String>> determineChildren() {
 		ObservableList<TreeItem<String>> children = FXCollections.observableArrayList();
 

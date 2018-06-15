@@ -46,7 +46,9 @@ public abstract class CachedTreeItem<T> extends TreeItem<T> {
 		return super.getChildren();
 	}
 
-	public abstract boolean determineIsLeaf();
+	public boolean determineIsLeaf() {
+		return getChildren().isEmpty();
+	}
 
 	public abstract ObservableList<TreeItem<T>> determineChildren();
 }
