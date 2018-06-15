@@ -42,12 +42,8 @@ public class MainPresenter implements Initializable {
 	@Inject
 	DataBridge dataBridge;
 
-	Iterable<Collection> collections;
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		this.collections = this.dataBridge.getCollections();
-
 		setupTableView();
 		setupMainNavigation();
 	}
@@ -58,7 +54,7 @@ public class MainPresenter implements Initializable {
 		this.mainNavigation.setRoot(rootNode);
 		this.mainNavigation.setShowRoot(false);
 
-		for (Collection collection : this.collections) {
+		for (Collection collection : this.dataBridge.getCollections()) {
 			CollectionTreeItem collectionNode = new CollectionTreeItem(collection);
 			rootNode.getChildren().add(collectionNode);
 		}
