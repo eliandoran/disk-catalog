@@ -10,6 +10,7 @@ import io.disk_indexer.core.entity.Collection;
 public class DataBridge {
 
 	private EntityManager entityManager;
+	private EntityManagerFactory entityManagerFactory;
 
 	@PostConstruct
 	public void init() {
@@ -22,7 +23,11 @@ public class DataBridge {
 	}
 
 	private void setupConnection() {
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("core-readonly");
-		this.entityManager = entityManagerFactory.createEntityManager();
+		this.entityManagerFactory = Persistence.createEntityManagerFactory("core-readonly");
+		this.entityManager = this.entityManagerFactory.createEntityManager();
+	}
+
+	public void closeConnection() {
+		this.entityManagerFactory.close();
 	}
 }

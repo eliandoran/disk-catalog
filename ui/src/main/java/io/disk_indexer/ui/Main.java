@@ -1,5 +1,7 @@
 package io.disk_indexer.ui;
 
+import com.airhacks.afterburner.injection.Injector;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -20,6 +22,14 @@ public class Main extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void stop() throws Exception {
+		DataBridge dataBridge = Injector.instantiateModelOrService(DataBridge.class);
+		dataBridge.closeConnection();
+
+		Injector.forgetAll();
 	}
 
 	public static void main(String[] args) {
