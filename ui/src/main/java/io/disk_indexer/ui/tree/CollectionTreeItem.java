@@ -13,7 +13,6 @@ public class CollectionTreeItem extends CachedTreeItem<String> {
 	public CollectionTreeItem(Collection collection) {
 		super(collection.getTitle());
 		this.collection = collection;
-		System.out.println("Simon says Hi");
 	}
 
 	@Override
@@ -25,11 +24,8 @@ public class CollectionTreeItem extends CachedTreeItem<String> {
 	public ObservableList<TreeItem<String>> determineChildren() {
 		ObservableList<TreeItem<String>> children = FXCollections.observableArrayList();
 		Entry rootEntry = this.collection.getRootEntry();
-		System.out.println("Root entry: " + rootEntry.getName());
 
 		for (Entry subEntry : rootEntry.getChildEntries()) {
-			System.out.println(subEntry.getName() + " " + subEntry.getChildEntries().size());
-
 			if (subEntry.getEntryType() == EntryTypes.Directory) {
 				children.add(new DirectoryTreeItem(subEntry));
 			}

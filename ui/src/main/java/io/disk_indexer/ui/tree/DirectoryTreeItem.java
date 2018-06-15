@@ -23,7 +23,6 @@ public class DirectoryTreeItem extends CachedTreeItem<String> {
 		ObservableList<TreeItem<String>> children = FXCollections.observableArrayList();
 
 		for (Entry subEntry : this.entry.getChildEntries()) {
-			System.out.println("Subentry: " + subEntry.getName());
 			if (subEntry.getEntryType() == EntryTypes.Directory) {
 				children.add(new DirectoryTreeItem(subEntry));
 			}
