@@ -4,9 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.inject.Inject;
 
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -41,18 +39,17 @@ public class MainPresenter implements Initializable {
 	@FXML
 	private JFXTreeTableColumn<Person, Integer> entryDateModifiedColumn;
 
-	private EntityManager entityManager;
+	@Inject
+	DataBridge dataBridge;
+
+	Iterable<Collection> collections;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		setupConnection();
+		this.collections = this.dataBridge.getCollections();
+
 		setupTableView();
 		setupMainNavigation();
-	}
-
-	private void setupConnection() {
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("core-readonly");
-		this.entityManager = entityManagerFactory.createEntityManager();
 	}
 
 	private void setupMainNavigation() {
@@ -61,9 +58,7 @@ public class MainPresenter implements Initializable {
 		this.mainNavigation.setRoot(rootNode);
 		this.mainNavigation.setShowRoot(false);
 
-		Iterable<Collection> collections = this.entityManager.createQuery("from Collection", Collection.class).getResultList();
-
-		for (Collection collection : collections) {
+		for (Collection collection : this.collections) {
 			CollectionTreeItem collectionNode = new CollectionTreeItem(collection);
 			rootNode.getChildren().add(collectionNode);
 		}
