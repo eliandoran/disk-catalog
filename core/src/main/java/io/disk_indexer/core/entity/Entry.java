@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,13 +18,16 @@ public class Entry extends EntityBase {
 	private long size;
 
 	@ManyToOne
-	@JoinColumn(name="childEntries")
 	private Entry parentEntry;
 
 	@OneToMany(mappedBy="parentEntry", cascade=CascadeType.ALL)
 	private List<Entry> childEntries;
 
 	public List<Entry> getChildEntries() {
+		if (this.childEntries == null) {
+			this.childEntries = new LinkedList<>();
+		}
+
 		return this.childEntries;
 	}
 
@@ -40,7 +42,6 @@ public class Entry extends EntityBase {
 	private List<Metadata> metadata;
 
 	public Entry() {
-
 	}
 
 	public Entry(EntryTypes entryType) {

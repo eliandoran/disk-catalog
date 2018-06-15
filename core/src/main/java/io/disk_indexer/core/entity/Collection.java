@@ -1,5 +1,6 @@
 package io.disk_indexer.core.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -9,7 +10,7 @@ import javax.persistence.Table;
 public class Collection extends EntityBase {
 	private String title;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.PERSIST)
 	private Entry rootEntry;
 
 	public Collection() {
@@ -29,6 +30,11 @@ public class Collection extends EntityBase {
 	}
 
 	public Entry getRootEntry() {
+		if (this.rootEntry == null) {
+			this.rootEntry = new Entry(EntryTypes.Directory);
+			this.rootEntry.setName("Root entry");
+		}
+
 		return this.rootEntry;
 	}
 

@@ -9,6 +9,9 @@ import javafx.scene.control.TreeItem;
 
 public class CollectionTreeItem extends TreeItem<String> {
 	private final Collection collection;
+	private boolean isFirstTimeChildren = true;
+	private boolean isFirstTimeLeaf = true;
+	private boolean isLeaf = true;
 
 	public CollectionTreeItem(Collection collection) {
 		super(collection.getTitle());
@@ -18,23 +21,35 @@ public class CollectionTreeItem extends TreeItem<String> {
 
 	@Override
 	public boolean isLeaf() {
-		return false;
+		if (this.isFirstTimeLeaf) {
+			this.isLeaf = this.collection.getRootEntry().getChildEntries().isEmpty();
+		}
+
+		return this.isLeaf;
 	}
 
 	@Override
 	public ObservableList<TreeItem<String>> getChildren() {
+		if (this.isFirstTimeChildren) {
+			super.getChildren().setAll(buildChildren());
+			this.isFirstTimeChildren = false;
+		}
+
+		return super.getChildren();
+	}
+
+	private ObservableList<TreeItem<String>> buildChildren() {
 		ObservableList<TreeItem<String>> children = FXCollections.observableArrayList();
 		Entry rootEntry = this.collection.getRootEntry();
-
-		System.out.println("Listing: " + this.collection.getTitle());
+		System.out.println("Root entry: " + rootEntry.getName());
 
 		for (Entry subEntry : rootEntry.getChildEntries()) {
+			System.out.println(subEntry.getName() + " " + subEntry.getChildEntries().size());
+
 			if (subEntry.getEntryType() == EntryTypes.Directory) {
 				children.add(new DirectoryTreeItem(subEntry));
 			}
 		}
-
-		System.out.println("Number of children: " + children.size());
 
 		return children;
 	}

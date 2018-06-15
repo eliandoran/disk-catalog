@@ -24,7 +24,7 @@ public class FileSystemScanner extends Scanner {
 
 		try {
 			beforeScan(collection);
-			doScan(null, path);
+			doScan(collection.getRootEntry(), path);
 			afterScan();
 		} catch (ScannerListenerFailedException e) {
 			throw new ScannerFailedException(e);
@@ -54,6 +54,8 @@ public class FileSystemScanner extends Scanner {
 				doScan(rootEntry, child.getPath());
 			}
 		}
+
+		parentEntry.getChildEntries().add(rootEntry);
 	}
 
 	@Override

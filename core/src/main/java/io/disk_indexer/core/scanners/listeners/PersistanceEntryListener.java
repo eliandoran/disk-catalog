@@ -29,16 +29,11 @@ public class PersistanceEntryListener implements EntryListener {
 
 	@Override
 	public void processEntry(Entry entry) throws ScannerListenerFailedException {
-		if (this.rootEntry == null) {
-			this.rootEntry = entry;
-		}
-
 		this.entityManager.persist(entry);
 	}
 
 	@Override
 	public void onScanComplete() throws ScannerListenerFailedException {
-		this.collection.setRootEntry(this.rootEntry);
 		this.entityManager.getTransaction().commit();
 	}
 }
