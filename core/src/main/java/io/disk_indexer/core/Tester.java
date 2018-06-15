@@ -10,8 +10,6 @@ import io.disk_indexer.core.scanners.impl.FileSystemScanner;
 import io.disk_indexer.core.scanners.listeners.BasicProgressTrackerEntryListener;
 import io.disk_indexer.core.scanners.listeners.MetadataStreamListener;
 import io.disk_indexer.core.scanners.listeners.PersistanceEntryListener;
-import io.disk_indexer.core.scanners.metadata.image.ImageMetadataProvider;
-import io.disk_indexer.core.scanners.metadata.music.Mp3MetadataProvider;
 
 public class Tester {
 	public static EntityManagerFactory entityManagerFactory;
@@ -26,14 +24,14 @@ public class Tester {
 			entityManager.persist(collection);
 
 			MetadataStreamListener metadataStreamListener = new MetadataStreamListener();
-			metadataStreamListener.addProvider(new Mp3MetadataProvider());
-			metadataStreamListener.addProvider(new ImageMetadataProvider());
+			//metadataStreamListener.addProvider(new Mp3MetadataProvider());
+			//metadataStreamListener.addProvider(new ImageMetadataProvider());
 
 			FileSystemScanner scanner = new FileSystemScanner();
 			scanner.addListener(new PersistanceEntryListener(entityManager));
 			scanner.addListener(new BasicProgressTrackerEntryListener(System.out));
 			scanner.addListener(metadataStreamListener);
-			scanner.scan(collection, "/home/elian/Desktop/MiniTest");
+			scanner.scan(collection, "/home/elian/Desktop");
 
 			Collection x = entityManager.createQuery("from Collection", Collection.class).getSingleResult();
 			Entry rootEntry = x.getRootEntry();
@@ -45,6 +43,8 @@ public class Tester {
 			if (rootEntry.getChildEntries() == null) {
 				System.out.println("Empty child entries.");
 			}
+
+			entityManager.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
