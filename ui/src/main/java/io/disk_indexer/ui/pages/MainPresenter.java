@@ -17,6 +17,8 @@ import io.disk_indexer.core.entity.Entry;
 import io.disk_indexer.ui.DataBridge;
 import io.disk_indexer.ui.tree.CollectionTreeItem;
 import io.disk_indexer.ui.treeobject.EntryTreeObject;
+import io.disk_indexer.ui.treeobject.FileSizeStringConverter;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,7 +37,7 @@ public class MainPresenter implements Initializable {
 	@FXML
 	private JFXTreeTableColumn<EntryTreeObject, String> entryNameColumn;
 	@FXML
-	private JFXTreeTableColumn<EntryTreeObject, Integer> entrySizeColumn;
+	private JFXTreeTableColumn<EntryTreeObject, String> entrySizeColumn;
 	@FXML
 	private JFXTreeTableColumn<EntryTreeObject, String> entryDateModifiedColumn;
 
@@ -62,7 +64,7 @@ public class MainPresenter implements Initializable {
 
 	private void setupTableView() {
 		setupCellValueFactory(this.entryNameColumn, EntryTreeObject::nameProperty);
-		setupCellValueFactory(this.entrySizeColumn, p -> p.sizeProperty().asObject());
+		setupCellValueFactory(this.entrySizeColumn, cellData -> new ReadOnlyStringWrapper(new FileSizeStringConverter().toString(cellData.sizeProperty().asObject().get())));
 		setupCellValueFactory(this.entryDateModifiedColumn, EntryTreeObject::dateProperty);
 
 		ObservableList<EntryTreeObject> entries = FXCollections.observableArrayList();
