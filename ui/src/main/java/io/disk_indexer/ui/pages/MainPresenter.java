@@ -13,11 +13,10 @@ import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import io.disk_indexer.core.entity.Collection;
+import io.disk_indexer.core.entity.Entry;
 import io.disk_indexer.ui.DataBridge;
 import io.disk_indexer.ui.tree.CollectionTreeItem;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import io.disk_indexer.ui.treeobject.EntryTreeObject;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,14 +30,14 @@ public class MainPresenter implements Initializable {
 	private JFXTreeView<String> mainNavigation;
 
 	@FXML
-	private JFXTreeTableView<Person> treeTableView;
+	private JFXTreeTableView<EntryTreeObject> treeTableView;
 
 	@FXML
-	private JFXTreeTableColumn<Person, String> entryNameColumn;
+	private JFXTreeTableColumn<EntryTreeObject, String> entryNameColumn;
 	@FXML
-	private JFXTreeTableColumn<Person, String> entrySizeColumn;
+	private JFXTreeTableColumn<EntryTreeObject, Integer> entrySizeColumn;
 	@FXML
-	private JFXTreeTableColumn<Person, Integer> entryDateModifiedColumn;
+	private JFXTreeTableColumn<EntryTreeObject, String> entryDateModifiedColumn;
 
 	@Inject
 	DataBridge dataBridge;
@@ -62,51 +61,30 @@ public class MainPresenter implements Initializable {
 	}
 
 	private void setupTableView() {
-		setupCellValueFactory(this.entryNameColumn, Person::firstNameProperty);
-		setupCellValueFactory(this.entrySizeColumn, Person::lastNameProperty);
-		setupCellValueFactory(this.entryDateModifiedColumn, p -> p.age.asObject());
+		setupCellValueFactory(this.entryNameColumn, EntryTreeObject::nameProperty);
+		setupCellValueFactory(this.entrySizeColumn, p -> p.sizeProperty().asObject());
+		setupCellValueFactory(this.entryDateModifiedColumn, EntryTreeObject::dateProperty);
 
-		ObservableList<Person> persons = FXCollections.observableArrayList();
-		persons.add(new Person("Elian", "Doran", 21));
-		persons.add(new Person("Elian", "Doran", 21));
-		persons.add(new Person("Elian", "Doran", 21));
-		persons.add(new Person("Elian", "Doran", 21));
-		persons.add(new Person("Elian", "Doran", 21));
+		ObservableList<EntryTreeObject> entries = FXCollections.observableArrayList();
 
-		this.treeTableView.setRoot(new RecursiveTreeItem<>(persons, RecursiveTreeObject::getChildren));
+		Collection collection = this.dataBridge.getCollections().iterator().next();
+		Entry rootEntry = collection.getRootEntry().getChildEntries().get(0);
+
+		for (Entry child : rootEntry.getChildEntries()) {
+			entries.add(new EntryTreeObject(child));
+		}
+
+		this.treeTableView.setRoot(new RecursiveTreeItem<>(entries, RecursiveTreeObject::getChildren));
 		this.treeTableView.setShowRoot(false);
 		this.treeTableView.refresh();
 	}
 
-	private <T> void setupCellValueFactory(JFXTreeTableColumn<Person, T> column, Function<Person, ObservableValue<T>> mapper) {
-		column.setCellValueFactory((TreeTableColumn.CellDataFeatures<Person, T> param) -> {
+	private <T> void setupCellValueFactory(JFXTreeTableColumn<EntryTreeObject, T> column, Function<EntryTreeObject, ObservableValue<T>> mapper) {
+		column.setCellValueFactory((TreeTableColumn.CellDataFeatures<EntryTreeObject, T> param) -> {
 			if (column.validateValue(param))
 				return mapper.apply(param.getValue().getValue());
 			else
 				return column.getComputedValue(param);
 		});
-	}
-
-	/*
-	 * data class
-	 */
-	static final class Person extends RecursiveTreeObject<Person> {
-		final StringProperty firstName;
-		final StringProperty lastName;
-		final SimpleIntegerProperty age;
-
-		Person(String firstName, String lastName, int age) {
-			this.firstName = new SimpleStringProperty(firstName);
-			this.lastName = new SimpleStringProperty(lastName);
-			this.age = new SimpleIntegerProperty(age);
-		}
-
-		StringProperty firstNameProperty() {
-			return this.firstName;
-		}
-
-		StringProperty lastNameProperty() {
-			return this.lastName;
-		}
 	}
 }
