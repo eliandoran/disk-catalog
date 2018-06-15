@@ -23,7 +23,7 @@ public class FileSystemScanner extends Scanner {
 		this.collection = collection;
 
 		try {
-			beforeScan();
+			beforeScan(collection);
 			doScan(null, path);
 			afterScan();
 		} catch (ScannerListenerFailedException e) {

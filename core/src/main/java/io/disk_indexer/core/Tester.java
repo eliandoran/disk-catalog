@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import io.disk_indexer.core.entity.Collection;
+import io.disk_indexer.core.entity.Entry;
 import io.disk_indexer.core.scanners.impl.FileSystemScanner;
 import io.disk_indexer.core.scanners.listeners.BasicProgressTrackerEntryListener;
 import io.disk_indexer.core.scanners.listeners.MetadataStreamListener;
@@ -32,7 +33,18 @@ public class Tester {
 			scanner.addListener(new PersistanceEntryListener(entityManager));
 			scanner.addListener(new BasicProgressTrackerEntryListener(System.out));
 			scanner.addListener(metadataStreamListener);
-			scanner.scan(collection, "/run/media/elian/Elian D./MiniTest");
+			scanner.scan(collection, "/home/elian/Desktop/MiniTest");
+
+			Collection x = entityManager.createQuery("from Collection", Collection.class).getSingleResult();
+			Entry rootEntry = x.getRootEntry();
+
+			if (x.getRootEntry() == null) {
+				System.out.println("Null root entry.");
+			}
+
+			if (rootEntry.getChildEntries() == null) {
+				System.out.println("Empty child entries.");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;

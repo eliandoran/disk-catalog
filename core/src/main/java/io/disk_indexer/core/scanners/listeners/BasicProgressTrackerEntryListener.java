@@ -2,6 +2,7 @@ package io.disk_indexer.core.scanners.listeners;
 
 import java.io.PrintStream;
 
+import io.disk_indexer.core.entity.Collection;
 import io.disk_indexer.core.entity.Entry;
 import io.disk_indexer.core.exceptions.ScannerListenerFailedException;
 import io.disk_indexer.core.scanners.EntryListener;
@@ -21,8 +22,8 @@ public class BasicProgressTrackerEntryListener implements EntryListener {
 	}
 
 	@Override
-	public void onScanStarted() throws ScannerListenerFailedException {
-		this.outputStream.println("Scan started.");
+	public void onScanStarted(Collection collection) throws ScannerListenerFailedException {
+		this.outputStream.println("Scan started for collection: " + collection.getTitle());
 		this.startTime = System.nanoTime();
 		this.entryCount = 0;
 	}

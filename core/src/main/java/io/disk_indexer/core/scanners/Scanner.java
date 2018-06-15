@@ -29,11 +29,11 @@ public abstract class Scanner {
 		this.listeners.add(listener);
 	}
 
-	protected void beforeScan() throws ScannerListenerFailedException {
+	protected void beforeScan(Collection collection) throws ScannerListenerFailedException {
 		for (ScannerListener listener : this.listeners) {
 			if (listener instanceof EntryListener) {
 				EntryListener entryListener = (EntryListener)listener;
-				entryListener.onScanStarted();
+				entryListener.onScanStarted(collection);
 			}
 
 			System.out.println(listener.getClass().getName() + " ");
