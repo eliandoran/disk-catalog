@@ -12,12 +12,28 @@
 		<class>io.disk_indexer.core.entity.Metadata</class>
 		<properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1;MVCC=TRUE" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:~/diskStore.db:db1;DB_CLOSE_DELAY=-1;MVCC=TRUE" />
             <property name="javax.persistence.jdbc.user" value="sa" />
             <property name="javax.persistence.jdbc.password" value="" />
 
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.hbm2ddl.auto" value="create" />
+        </properties>
+	</persistence-unit>
+	
+	<persistence-unit name="core-readonly">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>io.disk_indexer.core.entity.Entry</class>
+		<class>io.disk_indexer.core.entity.EntityBase</class>
+		<class>io.disk_indexer.core.entity.Collection</class>
+		<class>io.disk_indexer.core.entity.Metadata</class>
+		<properties>
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:h2:~/diskStore.db:db1;DB_CLOSE_DELAY=-1;MVCC=TRUE" />
+            <property name="javax.persistence.jdbc.user" value="sa" />
+            <property name="javax.persistence.jdbc.password" value="" />
+
+            <property name="hibernate.show_sql" value="true" />
         </properties>
 	</persistence-unit>
 </persistence>

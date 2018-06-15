@@ -5,6 +5,8 @@ import java.util.ResourceBundle;
 import java.util.function.Function;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -12,7 +14,6 @@ import com.jfoenix.controls.JFXTreeView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
-import io.disk_indexer.core.Tester;
 import io.disk_indexer.core.entity.Collection;
 import io.disk_indexer.ui.tree.CollectionTreeItem;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -50,8 +51,8 @@ public class MainPresenter implements Initializable {
 	}
 
 	private void setupConnection() {
-		Tester.main(null);
-		this.entityManager = Tester.entityManager;
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("core-readonly");
+		this.entityManager = entityManagerFactory.createEntityManager();
 	}
 
 	private void setupMainNavigation() {

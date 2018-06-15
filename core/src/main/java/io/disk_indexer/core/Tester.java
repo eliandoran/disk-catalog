@@ -45,6 +45,7 @@ public class Tester {
 			}
 
 			entityManager.close();
+			entityManagerFactory.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
