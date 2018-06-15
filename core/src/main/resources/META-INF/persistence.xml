@@ -32,8 +32,6 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:~/diskStore.db:db1;DB_CLOSE_DELAY=-1;MVCC=TRUE" />
             <property name="javax.persistence.jdbc.user" value="sa" />
             <property name="javax.persistence.jdbc.password" value="" />
-
-            <property name="hibernate.show_sql" value="true" />
         </properties>
 	</persistence-unit>
 </persistence>
