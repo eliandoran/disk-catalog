@@ -17,6 +17,7 @@ import io.disk_indexer.core.entity.Entry;
 import io.disk_indexer.ui.DataBridge;
 import io.disk_indexer.ui.tree.CollectionTreeItem;
 import io.disk_indexer.ui.treeobject.EntryTreeObject;
+import io.disk_indexer.ui.treeobject.EpochTimeStringConverter;
 import io.disk_indexer.ui.treeobject.FileSizeStringConverter;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ObservableValue;
@@ -65,7 +66,7 @@ public class MainPresenter implements Initializable {
 	private void setupTableView() {
 		setupCellValueFactory(this.entryNameColumn, EntryTreeObject::nameProperty);
 		setupCellValueFactory(this.entrySizeColumn, cellData -> new ReadOnlyStringWrapper(new FileSizeStringConverter().toString(cellData.sizeProperty().asObject().get())));
-		setupCellValueFactory(this.entryDateModifiedColumn, EntryTreeObject::dateProperty);
+		setupCellValueFactory(this.entryDateModifiedColumn, cellData -> new ReadOnlyStringWrapper(new EpochTimeStringConverter().toString(cellData.dateProperty().asObject().get())));
 
 		ObservableList<EntryTreeObject> entries = FXCollections.observableArrayList();
 
