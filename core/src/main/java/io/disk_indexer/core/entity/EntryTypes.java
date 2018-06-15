@@ -1,4 +1,4 @@
-package io.disk_indexer.core.model;
+package io.disk_indexer.core.entity;
 
 public enum EntryTypes {
 	File(0),

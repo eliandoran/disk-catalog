@@ -10,8 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import io.disk_indexer.core.model.EntryTypes;
-
 @Entity
 @Table(name="Entries")
 public class Entry extends EntityBase {

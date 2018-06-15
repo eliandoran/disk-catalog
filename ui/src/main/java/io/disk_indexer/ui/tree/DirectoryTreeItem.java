@@ -1,7 +1,7 @@
 package io.disk_indexer.ui.tree;
 
 import io.disk_indexer.core.entity.Entry;
-import io.disk_indexer.core.model.EntryTypes;
+import io.disk_indexer.core.entity.EntryTypes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;

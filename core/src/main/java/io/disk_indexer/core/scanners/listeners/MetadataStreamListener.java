@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.disk_indexer.core.entity.Entry;
+import io.disk_indexer.core.entity.EntryTypes;
 import io.disk_indexer.core.entity.Metadata;
 import io.disk_indexer.core.exceptions.MetadataProviderFailedException;
 import io.disk_indexer.core.exceptions.ScannerListenerFailedException;
-import io.disk_indexer.core.model.EntryTypes;
 import io.disk_indexer.core.scanners.StreamListener;
 import io.disk_indexer.core.scanners.StreamListenerInputType;
 import io.disk_indexer.core.scanners.metadata.InputStreamMetadataProvider;
