@@ -7,11 +7,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
-public class CollectionTreeItem extends TreeItem<String> {
+public class CollectionTreeItem extends CachedTreeItem<String> {
 	private final Collection collection;
-	private boolean isFirstTimeChildren = true;
-	private boolean isFirstTimeLeaf = true;
-	private boolean isLeaf = true;
 
 	public CollectionTreeItem(Collection collection) {
 		super(collection.getTitle());
@@ -20,25 +17,12 @@ public class CollectionTreeItem extends TreeItem<String> {
 	}
 
 	@Override
-	public boolean isLeaf() {
-		if (this.isFirstTimeLeaf) {
-			this.isLeaf = this.collection.getRootEntry().getChildEntries().isEmpty();
-		}
-
-		return this.isLeaf;
+	public boolean determineIsLeaf() {
+		return this.collection.getRootEntry().getChildEntries().isEmpty();
 	}
 
 	@Override
-	public ObservableList<TreeItem<String>> getChildren() {
-		if (this.isFirstTimeChildren) {
-			super.getChildren().setAll(buildChildren());
-			this.isFirstTimeChildren = false;
-		}
-
-		return super.getChildren();
-	}
-
-	private ObservableList<TreeItem<String>> buildChildren() {
+	public ObservableList<TreeItem<String>> determineChildren() {
 		ObservableList<TreeItem<String>> children = FXCollections.observableArrayList();
 		Entry rootEntry = this.collection.getRootEntry();
 		System.out.println("Root entry: " + rootEntry.getName());
