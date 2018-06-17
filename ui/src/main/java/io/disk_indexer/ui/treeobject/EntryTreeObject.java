@@ -9,11 +9,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class EntryTreeObject extends RecursiveTreeObject<EntryTreeObject> {
+	final Entry entry;
+
 	final StringProperty name;
 	final LongProperty size;
 	final LongProperty date;
 
 	public EntryTreeObject(Entry entry) {
+		this.entry = entry;
 		this.name = new SimpleStringProperty(entry.getName());
 		this.size = new SimpleLongProperty(entry.getSize());
 		this.date = new SimpleLongProperty(entry.getModificationDate());
@@ -29,5 +32,9 @@ public class EntryTreeObject extends RecursiveTreeObject<EntryTreeObject> {
 
 	public LongProperty dateProperty() {
 		return this.date;
+	}
+
+	public Entry getEntry() {
+		return this.entry;
 	}
 }

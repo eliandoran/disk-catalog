@@ -14,6 +14,7 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import io.disk_indexer.core.entity.Collection;
 import io.disk_indexer.core.entity.EntityBase;
 import io.disk_indexer.core.entity.Entry;
+import io.disk_indexer.core.entity.EntryTypes;
 import io.disk_indexer.ui.CellValueFactoryHelper;
 import io.disk_indexer.ui.DataBridge;
 import io.disk_indexer.ui.tree.CollectionTreeItem;
@@ -24,9 +25,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
+import javafx.scene.input.MouseEvent;
 
 public class MainPresenter implements Initializable {
 	@FXML
@@ -94,6 +97,26 @@ public class MainPresenter implements Initializable {
 		this.treeTableView.setRoot(buildEntries(rootEntry));
 		this.treeTableView.setShowRoot(false);
 		this.treeTableView.refresh();
+		this.treeTableView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if (event.getClickCount() != 2)
+					return;
+
+				TreeItem<EntryTreeObject> item = MainPresenter.this.treeTableView.getSelectionModel().getSelectedItem();
+
+				if (item == null)
+					return;
+
+				Entry entry = item.getValue().getEntry();
+
+				if (entry.getEntryType() == EntryTypes.Directory) {
+					MainPresenter.this.treeTableView.setRoot(buildEntries(entry));
+				}
+			}
+
+		});
 	}
 
 	private RecursiveTreeItem<EntryTreeObject> buildEntries(Entry rootEntry) {
