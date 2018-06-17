@@ -19,6 +19,8 @@ import io.disk_indexer.ui.tree.CollectionTreeItem;
 import io.disk_indexer.ui.treeobject.EntryTreeObject;
 import io.disk_indexer.ui.treeobject.EpochTimeStringConverter;
 import io.disk_indexer.ui.treeobject.FileSizeStringConverter;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -53,6 +55,15 @@ public class MainPresenter implements Initializable {
 		rootNode.setExpanded(true);
 		this.mainNavigation.setRoot(rootNode);
 		this.mainNavigation.setShowRoot(false);
+		this.mainNavigation.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
+			@Override
+			public void changed(ObservableValue<? extends TreeItem<String>> observable, TreeItem<String> oldValue,
+					TreeItem<String> newValue) {
+				if (newValue != null) {
+					System.out.println("Selected: " + newValue.getValue());
+				}
+			}
+		});
 
 		for (Collection collection : this.dataBridge.getCollections()) {
 			CollectionTreeItem collectionNode = new CollectionTreeItem(collection);
