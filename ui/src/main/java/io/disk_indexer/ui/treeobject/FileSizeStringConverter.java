@@ -2,7 +2,7 @@ package io.disk_indexer.ui.treeobject;
 
 import javafx.util.StringConverter;
 
-public class FileSizeStringConverter extends StringConverter<Long> {
+public class FileSizeStringConverter extends StringConverter<Number> {
 
 	@Override
 	public Long fromString(String string) {
@@ -10,7 +10,7 @@ public class FileSizeStringConverter extends StringConverter<Long> {
 	}
 
 	@Override
-	public String toString(Long object) {
+	public String toString(Number object) {
 		long bytes = object.longValue();
 		int u = 0;
 

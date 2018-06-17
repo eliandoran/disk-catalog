@@ -2,7 +2,6 @@ package io.disk_indexer.ui.pages;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.function.Function;
 
 import javax.inject.Inject;
 
@@ -14,19 +13,17 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import io.disk_indexer.core.entity.Collection;
 import io.disk_indexer.core.entity.Entry;
+import io.disk_indexer.ui.CellValueFactoryHelper;
 import io.disk_indexer.ui.DataBridge;
 import io.disk_indexer.ui.tree.CollectionTreeItem;
 import io.disk_indexer.ui.treeobject.EntryTreeObject;
 import io.disk_indexer.ui.treeobject.EpochTimeStringConverter;
 import io.disk_indexer.ui.treeobject.FileSizeStringConverter;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
 
 public class MainPresenter implements Initializable {
 	@FXML
@@ -64,9 +61,9 @@ public class MainPresenter implements Initializable {
 	}
 
 	private void setupTableView() {
-		setupCellValueFactory(this.entryNameColumn, EntryTreeObject::nameProperty);
-		setupCellValueFactory(this.entrySizeColumn, cellData -> new ReadOnlyStringWrapper(new FileSizeStringConverter().toString(cellData.sizeProperty().asObject().get())));
-		setupCellValueFactory(this.entryDateModifiedColumn, cellData -> new ReadOnlyStringWrapper(new EpochTimeStringConverter().toString(cellData.dateProperty().asObject().get())));
+		CellValueFactoryHelper.setup(this.entryNameColumn, EntryTreeObject::nameProperty);
+		CellValueFactoryHelper.setup(this.entrySizeColumn, EntryTreeObject::sizeProperty, new FileSizeStringConverter());
+		CellValueFactoryHelper.setup(this.entryDateModifiedColumn, EntryTreeObject::dateProperty, new EpochTimeStringConverter());
 
 		ObservableList<EntryTreeObject> entries = FXCollections.observableArrayList();
 
@@ -80,14 +77,5 @@ public class MainPresenter implements Initializable {
 		this.treeTableView.setRoot(new RecursiveTreeItem<>(entries, RecursiveTreeObject::getChildren));
 		this.treeTableView.setShowRoot(false);
 		this.treeTableView.refresh();
-	}
-
-	private <T> void setupCellValueFactory(JFXTreeTableColumn<EntryTreeObject, T> column, Function<EntryTreeObject, ObservableValue<T>> mapper) {
-		column.setCellValueFactory((TreeTableColumn.CellDataFeatures<EntryTreeObject, T> param) -> {
-			if (column.validateValue(param))
-				return mapper.apply(param.getValue().getValue());
-			else
-				return column.getComputedValue(param);
-		});
 	}
 }
