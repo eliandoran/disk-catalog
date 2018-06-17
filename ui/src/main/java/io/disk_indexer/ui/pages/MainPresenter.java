@@ -62,7 +62,17 @@ public class MainPresenter implements Initializable {
 			public void changed(ObservableValue<? extends TreeItem<EntityBase>> observable, TreeItem<EntityBase> oldValue,
 					TreeItem<EntityBase> newValue) {
 				if (newValue != null) {
-					System.out.println("Selected: " + newValue.getValue().toString());
+					Entry rootEntry = null;
+
+					if (newValue.getValue() instanceof Collection) {
+						rootEntry = ((Collection)newValue.getValue()).getRootEntry();
+					}
+
+					if (newValue.getValue() instanceof Entry) {
+						rootEntry = ((Entry)newValue.getValue());
+					}
+
+					MainPresenter.this.treeTableView.setRoot(buildEntries(rootEntry));
 				}
 			}
 		});
@@ -78,17 +88,21 @@ public class MainPresenter implements Initializable {
 		CellValueFactoryHelper.setup(this.entrySizeColumn, EntryTreeObject::sizeProperty, new FileSizeStringConverter());
 		CellValueFactoryHelper.setup(this.entryDateModifiedColumn, EntryTreeObject::dateProperty, new EpochTimeStringConverter());
 
-		ObservableList<EntryTreeObject> entries = FXCollections.observableArrayList();
-
 		Collection collection = this.dataBridge.getCollections().iterator().next();
 		Entry rootEntry = collection.getRootEntry().getChildEntries().get(0);
+
+		this.treeTableView.setRoot(buildEntries(rootEntry));
+		this.treeTableView.setShowRoot(false);
+		this.treeTableView.refresh();
+	}
+
+	private RecursiveTreeItem<EntryTreeObject> buildEntries(Entry rootEntry) {
+		ObservableList<EntryTreeObject> entries = FXCollections.observableArrayList();
 
 		for (Entry child : rootEntry.getChildEntries()) {
 			entries.add(new EntryTreeObject(child));
 		}
 
-		this.treeTableView.setRoot(new RecursiveTreeItem<>(entries, RecursiveTreeObject::getChildren));
-		this.treeTableView.setShowRoot(false);
-		this.treeTableView.refresh();
+		return new RecursiveTreeItem<>(entries, RecursiveTreeObject::getChildren);
 	}
 }
