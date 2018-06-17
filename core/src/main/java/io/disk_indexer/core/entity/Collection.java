@@ -41,4 +41,9 @@ public class Collection extends EntityBase {
 	public void setRootEntry(Entry rootEntry) {
 		this.rootEntry = rootEntry;
 	}
+
+	@Override
+	public String toString() {
+		return this.title;
+	}
 }

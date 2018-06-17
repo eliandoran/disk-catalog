@@ -12,6 +12,7 @@ import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import io.disk_indexer.core.entity.Collection;
+import io.disk_indexer.core.entity.EntityBase;
 import io.disk_indexer.core.entity.Entry;
 import io.disk_indexer.ui.CellValueFactoryHelper;
 import io.disk_indexer.ui.DataBridge;
@@ -29,7 +30,7 @@ import javafx.scene.control.TreeItem;
 
 public class MainPresenter implements Initializable {
 	@FXML
-	private JFXTreeView<String> mainNavigation;
+	private JFXTreeView<EntityBase> mainNavigation;
 
 	@FXML
 	private JFXTreeTableView<EntryTreeObject> treeTableView;
@@ -51,16 +52,17 @@ public class MainPresenter implements Initializable {
 	}
 
 	private void setupMainNavigation() {
-		TreeItem<String> rootNode = new TreeItem<>("Root");
+		TreeItem<EntityBase> rootNode = new TreeItem<>();
+
 		rootNode.setExpanded(true);
 		this.mainNavigation.setRoot(rootNode);
 		this.mainNavigation.setShowRoot(false);
-		this.mainNavigation.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
+		this.mainNavigation.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<EntityBase>>() {
 			@Override
-			public void changed(ObservableValue<? extends TreeItem<String>> observable, TreeItem<String> oldValue,
-					TreeItem<String> newValue) {
+			public void changed(ObservableValue<? extends TreeItem<EntityBase>> observable, TreeItem<EntityBase> oldValue,
+					TreeItem<EntityBase> newValue) {
 				if (newValue != null) {
-					System.out.println("Selected: " + newValue.getValue());
+					System.out.println("Selected: " + newValue.getValue().toString());
 				}
 			}
 		});

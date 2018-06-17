@@ -1,17 +1,18 @@
 package io.disk_indexer.ui.tree;
 
 import io.disk_indexer.core.entity.Collection;
+import io.disk_indexer.core.entity.EntityBase;
 import io.disk_indexer.core.entity.Entry;
 import io.disk_indexer.core.entity.EntryTypes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
-public class CollectionTreeItem extends CachedTreeItem<String> {
+public class CollectionTreeItem extends CachedTreeItem<EntityBase> {
 	private final Collection collection;
 
 	public CollectionTreeItem(Collection collection) {
-		super(collection.getTitle());
+		super(collection);
 		this.collection = collection;
 	}
 
@@ -21,8 +22,8 @@ public class CollectionTreeItem extends CachedTreeItem<String> {
 	}
 
 	@Override
-	public ObservableList<TreeItem<String>> determineChildren() {
-		ObservableList<TreeItem<String>> children = FXCollections.observableArrayList();
+	public ObservableList<TreeItem<EntityBase>> determineChildren() {
+		ObservableList<TreeItem<EntityBase>> children = FXCollections.observableArrayList();
 		Entry rootEntry = this.collection.getRootEntry();
 
 		for (Entry subEntry : rootEntry.getChildEntries()) {

@@ -113,4 +113,9 @@ public class Entry extends EntityBase {
 			this.metadata.add(data);
 		}
 	}
+
+	@Override
+	public String toString() {
+		return this.name;
+	}
 }
