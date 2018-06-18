@@ -10,12 +10,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class EntryImageNameTreeTableCell extends TreeTableCell<EntryTreeObject, Entry> {
+	private static final int ICON_SIZE = 32;
+
 	private ImageView imageView;
 
 	public EntryImageNameTreeTableCell() {
 		this.imageView = new ImageView();
+		this.imageView.setFitWidth(ICON_SIZE);
+		this.imageView.setFitHeight(ICON_SIZE);
 
-		setContentDisplay(ContentDisplay.CENTER);
+		setContentDisplay(ContentDisplay.LEFT);
 	}
 
 	@Override
@@ -32,5 +36,6 @@ public class EntryImageNameTreeTableCell extends TreeTableCell<EntryTreeObject, 
 		this.imageView.setImage(icon);
 
 		setGraphic(this.imageView);
+		setText(item.getName());
 	}
 }
