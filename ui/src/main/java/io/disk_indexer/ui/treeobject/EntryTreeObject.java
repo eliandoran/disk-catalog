@@ -4,7 +4,9 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import io.disk_indexer.core.entity.Entry;
 import javafx.beans.property.LongProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
@@ -15,15 +17,14 @@ public class EntryTreeObject extends RecursiveTreeObject<EntryTreeObject> {
 	final StringProperty name;
 	final LongProperty size;
 	final LongProperty date;
-
-	final Image icon;
+	final ObjectProperty<Image> icon;
 
 	public EntryTreeObject(Entry entry, Image icon) {
 		this.entry = entry;
 		this.name = new SimpleStringProperty(entry.getName());
 		this.size = new SimpleLongProperty(entry.getSize());
 		this.date = new SimpleLongProperty(entry.getModificationDate());
-		this.icon = icon;
+		this.icon = new SimpleObjectProperty<>(icon);
 	}
 
 	public StringProperty nameProperty() {
@@ -42,7 +43,7 @@ public class EntryTreeObject extends RecursiveTreeObject<EntryTreeObject> {
 		return this.entry;
 	}
 
-	public Image getIcon() {
+	public ObjectProperty<Image> iconProperty() {
 		return this.icon;
 	}
 }

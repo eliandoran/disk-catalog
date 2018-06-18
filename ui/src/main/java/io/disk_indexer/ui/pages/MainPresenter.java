@@ -23,6 +23,7 @@ import io.disk_indexer.ui.tree.CollectionTreeItem;
 import io.disk_indexer.ui.treeobject.EntryTreeObject;
 import io.disk_indexer.ui.treeobject.EpochTimeStringConverter;
 import io.disk_indexer.ui.treeobject.FileSizeStringConverter;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -30,9 +31,14 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableCell;
+import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Callback;
 
 public class MainPresenter implements Initializable {
 	@FXML
@@ -42,9 +48,7 @@ public class MainPresenter implements Initializable {
 	private JFXTreeTableView<EntryTreeObject> treeTableView;
 
 	@FXML
-	private JFXTreeTableColumn<EntryTreeObject, Image> entryIconColumn;
-	@FXML
-	private JFXTreeTableColumn<EntryTreeObject, String> entryNameColumn;
+	private JFXTreeTableColumn<EntryTreeObject, Entry> entryNameColumn;
 	@FXML
 	private JFXTreeTableColumn<EntryTreeObject, String> entrySizeColumn;
 	@FXML
@@ -94,7 +98,32 @@ public class MainPresenter implements Initializable {
 	}
 
 	private void setupTableView() {
-		CellValueFactoryHelper.setup(this.entryNameColumn, EntryTreeObject::nameProperty);
+		this.entryNameColumn.setCellFactory(new Callback<TreeTableColumn<EntryTreeObject,Entry>, TreeTableCell<EntryTreeObject,Entry>>() {
+			@Override
+			public TreeTableCell<EntryTreeObject, Entry> call(TreeTableColumn<EntryTreeObject, Entry> param) {
+				return new TreeTableCell<EntryTreeObject, Entry>() {
+					ImageView imageView = new ImageView("io/disk_indexer/ui/fileicons/file.png");
+
+					{
+						setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+					}
+
+					@Override
+					protected void updateItem(Entry item, boolean empty) {
+						super.updateItem(item, empty);
+
+						if (item == null || empty) {
+							setGraphic(null);
+							return;
+						}
+
+						setGraphic(this.imageView);
+					}
+				};
+			}
+		});
+
+		CellValueFactoryHelper.setup(this.entryNameColumn, (e) -> new ReadOnlyObjectWrapper<>(e.getEntry()));
 		CellValueFactoryHelper.setup(this.entrySizeColumn, EntryTreeObject::sizeProperty, new FileSizeStringConverter());
 		CellValueFactoryHelper.setup(this.entryDateModifiedColumn, EntryTreeObject::dateProperty, new EpochTimeStringConverter());
 
