@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXTreeView?>
 <?import com.jfoenix.controls.JFXToolbar?>
 <?import com.jfoenix.controls.JFXTreeTableColumn?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
+<?import com.jfoenix.controls.JFXTreeView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.disk_indexer.ui.pages.MainPresenter">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.disk_indexer.ui.pages.MainPresenter">
 	<center>
 		<SplitPane dividerPositions="0.3" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
 			<items>
 				<JFXTreeView fx:id="mainNavigation" />
 				<JFXTreeTableView fx:id="treeTableView">
 					<columns>
-						<JFXTreeTableColumn fx:id="entryNameColumn" minWidth="133" prefWidth="133" resizable="false" text="Name" />
-						<JFXTreeTableColumn fx:id="entrySizeColumn" minWidth="133" resizable="false" text="Size" />
-						<JFXTreeTableColumn fx:id="entryDateModifiedColumn" minWidth="133" resizable="false" text="Last Modified" />
+						<JFXTreeTableColumn fx:id="entryNameColumn" minWidth="200.0" prefWidth="-1.0" text="Name" />
+						<JFXTreeTableColumn fx:id="entrySizeColumn" minWidth="70.0" prefWidth="-1.0" text="Size" />
+						<JFXTreeTableColumn fx:id="entryDateModifiedColumn" minWidth="133" prefWidth="-1.0" text="Last Modified" />
 					</columns>
+               <columnResizePolicy>
+                  <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
 				</JFXTreeTableView>
 			</items>
 		</SplitPane>
