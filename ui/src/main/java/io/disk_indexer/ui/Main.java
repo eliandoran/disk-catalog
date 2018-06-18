@@ -2,6 +2,8 @@ package io.disk_indexer.ui;
 
 import com.airhacks.afterburner.injection.Injector;
 
+import io.disk_indexer.ui.fileicons.FileExtensionMapper;
+import io.disk_indexer.ui.fileicons.FileMapper;
 import io.disk_indexer.ui.pages.MainView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -33,7 +35,12 @@ public class Main extends Application {
 		Injector.forgetAll();
 	}
 
+	private static void configureServices() {
+		Injector.setModelOrService(FileMapper.class, new FileExtensionMapper());
+	}
+
 	public static void main(String[] args) {
+		configureServices();
 		launch(args);
 	}
 }
