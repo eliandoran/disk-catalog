@@ -23,7 +23,6 @@ import io.disk_indexer.ui.tree.CollectionTreeItem;
 import io.disk_indexer.ui.treeobject.EntryTreeObject;
 import io.disk_indexer.ui.treeobject.EpochTimeStringConverter;
 import io.disk_indexer.ui.treeobject.FileSizeStringConverter;
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -123,7 +122,7 @@ public class MainPresenter implements Initializable {
 			}
 		});
 
-		CellValueFactoryHelper.setup(this.entryNameColumn, (e) -> new ReadOnlyObjectWrapper<>(e.getEntry()));
+		CellValueFactoryHelper.setup(this.entryNameColumn, EntryTreeObject::entryProperty);
 		CellValueFactoryHelper.setup(this.entrySizeColumn, EntryTreeObject::sizeProperty, new FileSizeStringConverter());
 		CellValueFactoryHelper.setup(this.entryDateModifiedColumn, EntryTreeObject::dateProperty, new EpochTimeStringConverter());
 
@@ -145,7 +144,7 @@ public class MainPresenter implements Initializable {
 				if (item == null)
 					return;
 
-				Entry entry = item.getValue().getEntry();
+				Entry entry = item.getValue().entryProperty().get();
 
 				if (entry.getEntryType() == EntryTypes.Directory) {
 					MainPresenter.this.treeTableView.setRoot(buildEntries(entry));

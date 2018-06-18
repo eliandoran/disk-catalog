@@ -12,18 +12,17 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
 
 public class EntryTreeObject extends RecursiveTreeObject<EntryTreeObject> {
-	final Entry entry;
-
 	final StringProperty name;
 	final LongProperty size;
 	final LongProperty date;
+	final ObjectProperty<Entry> entry;
 	final ObjectProperty<Image> icon;
 
 	public EntryTreeObject(Entry entry, Image icon) {
-		this.entry = entry;
 		this.name = new SimpleStringProperty(entry.getName());
 		this.size = new SimpleLongProperty(entry.getSize());
 		this.date = new SimpleLongProperty(entry.getModificationDate());
+		this.entry = new SimpleObjectProperty<>(entry);
 		this.icon = new SimpleObjectProperty<>(icon);
 	}
 
@@ -39,7 +38,7 @@ public class EntryTreeObject extends RecursiveTreeObject<EntryTreeObject> {
 		return this.date;
 	}
 
-	public Entry getEntry() {
+	public ObjectProperty<Entry> entryProperty() {
 		return this.entry;
 	}
 
