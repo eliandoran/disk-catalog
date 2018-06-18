@@ -31,11 +31,14 @@ public class EntryImageNameTreeTableCell extends TreeTableCell<EntryTreeObject, 
 			return;
 		}
 
+		updateIcon(item);
+		setGraphic(this.imageView);
+		setText(item.getName());
+	}
+
+	private void updateIcon(Entry item) {
 		FileMapper fileMapper = Injector.instantiateModelOrService(FileMapper.class);
 		Image icon = fileMapper.obtainIcon(item);
 		this.imageView.setImage(icon);
-
-		setGraphic(this.imageView);
-		setText(item.getName());
 	}
 }
