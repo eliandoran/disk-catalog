@@ -15,7 +15,6 @@
 				<JFXTreeView fx:id="mainNavigation" />
 				<JFXTreeTableView fx:id="treeTableView">
 					<columns>
-						<JFXTreeTableColumn fx:id="entryIconColumn" minWidth="133" prefWidth="133" resizable="false" text="Icon" />
 						<JFXTreeTableColumn fx:id="entryNameColumn" minWidth="133" prefWidth="133" resizable="false" text="Name" />
 						<JFXTreeTableColumn fx:id="entrySizeColumn" minWidth="133" resizable="false" text="Size" />
 						<JFXTreeTableColumn fx:id="entryDateModifiedColumn" minWidth="133" resizable="false" text="Last Modified" />
