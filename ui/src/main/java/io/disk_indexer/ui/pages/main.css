@@ -1,0 +1,5 @@
+.entry-icon {
+	-fx-rotate: 10deg;
+	-fx-fit-width: 30;
+	-fx-fit-height: 30; 
+}
