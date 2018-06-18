@@ -20,6 +20,7 @@ import io.disk_indexer.ui.DataBridge;
 import io.disk_indexer.ui.fileicons.FileExtensionMapper;
 import io.disk_indexer.ui.fileicons.FileMapper;
 import io.disk_indexer.ui.tree.CollectionTreeItem;
+import io.disk_indexer.ui.treeobject.EntryImageNameTreeTableCell;
 import io.disk_indexer.ui.treeobject.EntryTreeObject;
 import io.disk_indexer.ui.treeobject.EpochTimeStringConverter;
 import io.disk_indexer.ui.treeobject.FileSizeStringConverter;
@@ -30,14 +31,9 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableCell;
-import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
 
 public class MainPresenter implements Initializable {
 	@FXML
@@ -97,31 +93,7 @@ public class MainPresenter implements Initializable {
 	}
 
 	private void setupTableView() {
-		this.entryNameColumn.setCellFactory(new Callback<TreeTableColumn<EntryTreeObject,Entry>, TreeTableCell<EntryTreeObject,Entry>>() {
-			@Override
-			public TreeTableCell<EntryTreeObject, Entry> call(TreeTableColumn<EntryTreeObject, Entry> param) {
-				return new TreeTableCell<EntryTreeObject, Entry>() {
-					ImageView imageView = new ImageView("io/disk_indexer/ui/fileicons/file.png");
-
-					{
-						setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-					}
-
-					@Override
-					protected void updateItem(Entry item, boolean empty) {
-						super.updateItem(item, empty);
-
-						if (item == null || empty) {
-							setGraphic(null);
-							return;
-						}
-
-						setGraphic(this.imageView);
-					}
-				};
-			}
-		});
-
+		this.entryNameColumn.setCellFactory((e) -> new EntryImageNameTreeTableCell());
 		CellValueFactoryHelper.setup(this.entryNameColumn, EntryTreeObject::entryProperty);
 		CellValueFactoryHelper.setup(this.entrySizeColumn, EntryTreeObject::sizeProperty, new FileSizeStringConverter());
 		CellValueFactoryHelper.setup(this.entryDateModifiedColumn, EntryTreeObject::dateProperty, new EpochTimeStringConverter());
