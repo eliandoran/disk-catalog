@@ -17,6 +17,8 @@ import io.disk_indexer.core.entity.Entry;
 import io.disk_indexer.core.entity.EntryTypes;
 import io.disk_indexer.ui.CellValueFactoryHelper;
 import io.disk_indexer.ui.DataBridge;
+import io.disk_indexer.ui.fileicons.FileExtensionMapper;
+import io.disk_indexer.ui.fileicons.FileMapper;
 import io.disk_indexer.ui.tree.CollectionTreeItem;
 import io.disk_indexer.ui.treeobject.EntryTreeObject;
 import io.disk_indexer.ui.treeobject.EpochTimeStringConverter;
@@ -29,6 +31,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 
 public class MainPresenter implements Initializable {
@@ -39,6 +42,8 @@ public class MainPresenter implements Initializable {
 	private JFXTreeTableView<EntryTreeObject> treeTableView;
 
 	@FXML
+	private JFXTreeTableColumn<EntryTreeObject, Image> entryIconColumn;
+	@FXML
 	private JFXTreeTableColumn<EntryTreeObject, String> entryNameColumn;
 	@FXML
 	private JFXTreeTableColumn<EntryTreeObject, String> entrySizeColumn;
@@ -47,6 +52,8 @@ public class MainPresenter implements Initializable {
 
 	@Inject
 	DataBridge dataBridge;
+
+	private FileMapper fileMapper = new FileExtensionMapper();
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -122,8 +129,11 @@ public class MainPresenter implements Initializable {
 	private RecursiveTreeItem<EntryTreeObject> buildEntries(Entry rootEntry) {
 		ObservableList<EntryTreeObject> entries = FXCollections.observableArrayList();
 
-		for (Entry child : rootEntry.getChildEntries()) {
-			entries.add(new EntryTreeObject(child));
+		for (Entry childEntry : rootEntry.getChildEntries()) {
+			Image icon = this.fileMapper.obtainIcon(childEntry);
+
+			EntryTreeObject childObject = new EntryTreeObject(childEntry, icon);
+			entries.add(childObject);
 		}
 
 		return new RecursiveTreeItem<>(entries, RecursiveTreeObject::getChildren);
