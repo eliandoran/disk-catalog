@@ -3,15 +3,26 @@ package io.disk_indexer.ui.util;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.IsoFields;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FriendlyDate {
+	private static Map<String, DateTimeFormatter> formatters = new HashMap<>();
+
 	private FriendlyDate() {
-		// Prevent instantiation.
+		// Prevent instantiation
 	}
 
 	public static String getFriendlyDate(LocalDate date, FriendlyDateLocale friendlyDateStrings) {
 		String format = getFormat(date, friendlyDateStrings);
-		return DateTimeFormatter.ofPattern(format).format(date);
+		DateTimeFormatter formatter = formatters.get(format);
+
+		if (formatter == null ) {
+			formatter = DateTimeFormatter.ofPattern(format);
+			formatters.put(format, formatter);
+		}
+
+		return formatter.format(date);
 	}
 
 	private static String getFormat(LocalDate date, FriendlyDateLocale friendlyLocale) {
