@@ -2,6 +2,7 @@ package io.disk_indexer.ui.util;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
 
@@ -36,6 +37,10 @@ public class DateUtils {
 		LocalDate lastDateOfWeek = getLastDateOfWeek(firstDate);
 
 		return (!secondDate.isBefore(firstDateOfWeek) && !secondDate.isAfter(lastDateOfWeek));
+	}
+
+	public static boolean haveSame(TemporalField field, LocalDate firstDate, LocalDate secondDate) {
+		return (firstDate.get(field) == secondDate.get(field));
 	}
 
 	public static DayOfWeek getFirstDayOfWeek() {

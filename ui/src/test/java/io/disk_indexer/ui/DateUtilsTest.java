@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.IsoFields;
 import java.util.Locale;
 
 import org.junit.AfterClass;
@@ -51,6 +52,15 @@ public class DateUtilsTest {
 		assertFalse(DateUtils.isSameWeek(dummyDate, LocalDate.of(2018, 6, 16)));
 		assertTrue(DateUtils.isSameWeek(dummyDate, LocalDate.of(2018, 6, 19)));
 		assertFalse(DateUtils.isSameWeek(dummyDate, LocalDate.of(2018, 6, 25)));
+	}
+
+	@Test
+	public void testHaveSame() {
+		LocalDate firstDate = LocalDate.of(2018, 6, 12);
+		LocalDate secondDate = LocalDate.of(2018, 6, 19);
+
+		assertTrue(DateUtils.haveSame(IsoFields.WEEK_BASED_YEAR, firstDate, secondDate));
+		assertFalse(DateUtils.haveSame(IsoFields.WEEK_BASED_YEAR, firstDate, secondDate.minusYears(1)));
 	}
 
 	@Test
