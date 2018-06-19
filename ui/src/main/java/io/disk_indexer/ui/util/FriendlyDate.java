@@ -9,16 +9,21 @@ public class FriendlyDate {
 		// Prevent instantiation.
 	}
 
-	public static String getFriendlyDate(LocalDate date, FriendlyDateStrings friendlyDateStrings) {
+	public static String getFriendlyDate(LocalDate date, FriendlyDateLocale friendlyDateStrings) {
+		String format = getFormat(date, friendlyDateStrings);
+		return DateTimeFormatter.ofPattern(format).format(date);
+	}
+
+	private static String getFormat(LocalDate date, FriendlyDateLocale friendlyLocale) {
 		if (DateUtils.isToday(date))
-			return friendlyDateStrings.getToday();
+			return friendlyLocale.getTodayFormat();
 
 		if (DateUtils.isYesterday(date))
-			return friendlyDateStrings.getYesterday();
+			return friendlyLocale.getYesterdayFormat();
 
 		if (DateUtils.haveSame(IsoFields.WEEK_BASED_YEAR, date, LocalDate.now()))
-			return date.format(DateTimeFormatter.ofPattern("d MMM"));
+			return friendlyLocale.getSameYearFormat();
 
-		return date.format(DateTimeFormatter.ofPattern("d MMM YYYY"));
+		return friendlyLocale.getDefaultFormat();
 	}
 }

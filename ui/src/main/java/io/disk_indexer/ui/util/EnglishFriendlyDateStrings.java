@@ -1,15 +1,25 @@
 package io.disk_indexer.ui.util;
 
-public class EnglishFriendlyDateStrings implements FriendlyDateStrings {
+public class EnglishFriendlyDateStrings implements FriendlyDateLocale {
 
 	@Override
-	public String getToday() {
-		return "Today";
+	public String getTodayFormat() {
+		return "'Today'";
 	}
 
 	@Override
-	public String getYesterday() {
-		return "Yesterday";
+	public String getYesterdayFormat() {
+		return "'Yesterday'";
+	}
+
+	@Override
+	public String getSameYearFormat() {
+		return "dd MMM";
+	}
+
+	@Override
+	public String getDefaultFormat() {
+		return "dd MMM yyyy";
 	}
 
 }
