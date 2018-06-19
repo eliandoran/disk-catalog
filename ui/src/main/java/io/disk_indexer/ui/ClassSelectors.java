@@ -1,9 +1,10 @@
 package io.disk_indexer.ui;
 
-import javafx.scene.Node;
+import javafx.css.Styleable;
 
 public enum ClassSelectors {
-	ENTRY_ICON;
+	ENTRY_ICON,
+	COLUMN_DATE_MODIFIED;
 
 	private String styleClass;
 
@@ -15,7 +16,7 @@ public enum ClassSelectors {
 		return this.styleClass;
 	}
 
-	public void applyTo(Node node) {
-		node.getStyleClass().add(this.getStyleClass());
+	public void applyTo(Styleable styleable) {
+		styleable.getStyleClass().add(this.getStyleClass());
 	}
 }

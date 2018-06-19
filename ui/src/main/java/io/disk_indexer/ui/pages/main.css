@@ -3,3 +3,7 @@
 	-fx-fit-width: 30;
 	-fx-fit-height: 30; 
 }
+
+.column-date-modified {
+	-fx-alignment: center-right;
+}

@@ -17,8 +17,8 @@
 				<JFXTreeTableView fx:id="treeTableView">
 					<columns>
 						<JFXTreeTableColumn fx:id="entryNameColumn" minWidth="200.0" prefWidth="-1.0" text="Name" />
-						<JFXTreeTableColumn fx:id="entrySizeColumn" minWidth="70.0" prefWidth="-1.0" text="Size" />
-						<JFXTreeTableColumn fx:id="entryDateModifiedColumn" minWidth="133" prefWidth="-1.0" text="Last Modified" />
+						<JFXTreeTableColumn fx:id="entrySizeColumn" prefWidth="-1.0" text="Size" />
+						<JFXTreeTableColumn fx:id="entryDateModifiedColumn" minWidth="50.0" prefWidth="-1.0" text="Modified" />
 					</columns>
                <columnResizePolicy>
                   <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

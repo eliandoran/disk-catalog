@@ -16,6 +16,7 @@ import io.disk_indexer.core.entity.EntityBase;
 import io.disk_indexer.core.entity.Entry;
 import io.disk_indexer.core.entity.EntryTypes;
 import io.disk_indexer.ui.CellValueFactoryHelper;
+import io.disk_indexer.ui.ClassSelectors;
 import io.disk_indexer.ui.DataBridge;
 import io.disk_indexer.ui.fileicons.FileExtensionMapper;
 import io.disk_indexer.ui.fileicons.FileMapper;
@@ -97,6 +98,8 @@ public class MainPresenter implements Initializable {
 		CellValueFactoryHelper.setup(this.entryNameColumn, EntryTreeObject::entryProperty);
 		CellValueFactoryHelper.setup(this.entrySizeColumn, EntryTreeObject::sizeProperty, new FileSizeStringConverter());
 		CellValueFactoryHelper.setup(this.entryDateModifiedColumn, EntryTreeObject::dateProperty, new EpochTimeStringConverter());
+
+		ClassSelectors.COLUMN_DATE_MODIFIED.applyTo(this.entryDateModifiedColumn);
 
 		Collection collection = this.dataBridge.getCollections().iterator().next();
 		Entry rootEntry = collection.getRootEntry().getChildEntries().get(0);
