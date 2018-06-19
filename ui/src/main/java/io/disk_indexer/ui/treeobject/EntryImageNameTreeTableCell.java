@@ -28,6 +28,7 @@ public class EntryImageNameTreeTableCell extends TreeTableCell<EntryTreeObject, 
 
 		if (item == null || empty) {
 			setGraphic(null);
+			setText(null);
 			return;
 		}
 
