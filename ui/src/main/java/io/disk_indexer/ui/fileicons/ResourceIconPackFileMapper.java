@@ -42,7 +42,7 @@ public class ResourceIconPackFileMapper implements FileMapper {
 
 	@Override
 	public Image obtainIcon(Entry entry) {
-		String extension = getExtension(entry.getName());
+		String extension = filterExtension(getExtension(entry.getName()));
 		String imagePath = this.fullMappings.get(extension);
 
 		System.out.println("Mapped " + extension + " with " + imagePath);
