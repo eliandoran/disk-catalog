@@ -1,0 +1,16 @@
+{
+	"title": "Icons8 Icon Pack",
+	"copyright": "© Icons8 LLC",
+	"url": "https://icons8.com/",
+	"extensionMappings": [
+		{
+			"map": [ "jpg", "jpeg", "jpe", "gif", "tiff" ],
+			"with": "image.png"
+		},
+		
+		{
+			"map": [ "mp3", "wav", "ogg" ],
+			"with": "music.png"
+		}
+	]
+}
