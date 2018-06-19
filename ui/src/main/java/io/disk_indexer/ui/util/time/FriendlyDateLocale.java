@@ -1,4 +1,4 @@
-package io.disk_indexer.ui.util;
+package io.disk_indexer.ui.util.time;
 
 public interface FriendlyDateLocale {
 	String getTodayFormat();

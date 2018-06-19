@@ -1,4 +1,4 @@
-package io.disk_indexer.ui.util;
+package io.disk_indexer.ui.util.time;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -26,13 +26,13 @@ public class FriendlyDate {
 	}
 
 	private static String getFormat(LocalDate date, FriendlyDateLocale friendlyLocale) {
-		if (DateUtils.isToday(date))
+		if (LocalDateUtils.isToday(date))
 			return friendlyLocale.getTodayFormat();
 
-		if (DateUtils.isYesterday(date))
+		if (LocalDateUtils.isYesterday(date))
 			return friendlyLocale.getYesterdayFormat();
 
-		if (DateUtils.haveSame(IsoFields.WEEK_BASED_YEAR, date, LocalDate.now()))
+		if (LocalDateUtils.haveSame(IsoFields.WEEK_BASED_YEAR, date, LocalDate.now()))
 			return friendlyLocale.getSameYearFormat();
 
 		return friendlyLocale.getDefaultFormat();

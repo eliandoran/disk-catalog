@@ -1,6 +1,8 @@
-package io.disk_indexer.ui.util;
+package io.disk_indexer.ui.util.time.locale;
 
-public class EnglishFriendlyDateStrings implements FriendlyDateLocale {
+import io.disk_indexer.ui.util.time.FriendlyDateLocale;
+
+public class EnglishFriendlyDateLocale implements FriendlyDateLocale {
 
 	@Override
 	public String getTodayFormat() {

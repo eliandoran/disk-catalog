@@ -1,4 +1,4 @@
-package io.disk_indexer.ui.util;
+package io.disk_indexer.ui.util.time;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -6,8 +6,8 @@ import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
 
-public class DateUtils {
-	private DateUtils() {
+public class LocalDateUtils {
+	private LocalDateUtils() {
 		// Prevent instantiation.
 	}
 

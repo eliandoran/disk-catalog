@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-import io.disk_indexer.ui.util.EnglishFriendlyDateStrings;
-import io.disk_indexer.ui.util.FriendlyDate;
+import io.disk_indexer.ui.util.time.FriendlyDate;
+import io.disk_indexer.ui.util.time.locale.EnglishFriendlyDateLocale;
 import javafx.util.StringConverter;
 
 public class EpochTimeStringConverter extends StringConverter<Number> {
@@ -22,7 +22,7 @@ public class EpochTimeStringConverter extends StringConverter<Number> {
 		Instant instant = Instant.ofEpochMilli(dateEpoch);
 		LocalDateTime dateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
 		LocalDate date = LocalDate.from(dateTime);
-		return FriendlyDate.getFriendlyDate(date, new EnglishFriendlyDateStrings());
+		return FriendlyDate.getFriendlyDate(date, new EnglishFriendlyDateLocale());
 	}
 
 }
