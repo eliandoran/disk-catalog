@@ -2,6 +2,10 @@
 	"title": "Icons8 Icon Pack",
 	"copyright": "© Icons8 LLC",
 	"url": "https://icons8.com/",
+	"typeMappings": {
+		"file": "file.png",
+		"directory": "directory.png"
+	},
 	"extensionMappings": [
 		{
 			"map": [ "jpg", "jpeg", "jpe", "gif", "tiff" ],

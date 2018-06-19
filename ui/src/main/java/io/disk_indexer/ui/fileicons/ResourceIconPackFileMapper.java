@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 
 public class ResourceIconPackFileMapper implements FileMapper {
 	private Map<String, String> fullMappings;
+	private Map<String, String> typeMappings;
 	private String resourcePath;
 
 	public ResourceIconPackFileMapper(String resourcePath) {
@@ -22,8 +23,14 @@ public class ResourceIconPackFileMapper implements FileMapper {
 
 		this.resourcePath = resourcePath;
 		this.fullMappings = new HashMap<>();
+		this.typeMappings = new HashMap<>();
 
-		System.out.println("Title: " + iconPack.get("title"));
+		JSONObject typeMappings = iconPack.getJSONObject("typeMappings");
+		for (String typeName : JSONObject.getNames(typeMappings)) {
+			typeName = filterType(typeName);
+			String imagePath = typeMappings.getString(typeName);
+			this.typeMappings.put(typeName, imagePath);
+		}
 
 		for (Object object : iconPack.getJSONArray("extensionMappings")) {
 			if (!(object instanceof JSONObject)) {
@@ -43,10 +50,13 @@ public class ResourceIconPackFileMapper implements FileMapper {
 	@Override
 	public Image obtainIcon(Entry entry) {
 		String extension = filterExtension(getExtension(entry.getName()));
+
 		String imagePath = this.fullMappings.get(extension);
+		if (imagePath != null)
+			return new Image(this.resourcePath + "/" + imagePath);
 
-		System.out.println("Mapped " + extension + " with " + imagePath);
-
+		String typeName = filterType(entry.getEntryType().name());
+		imagePath = this.typeMappings.get(typeName);
 		if (imagePath != null)
 			return new Image(this.resourcePath + "/" + imagePath);
 
@@ -67,6 +77,10 @@ public class ResourceIconPackFileMapper implements FileMapper {
 
 	private static String filterExtension(String extension) {
 		return extension.toLowerCase();
+	}
+
+	private static String filterType(String type) {
+		return type.toLowerCase();
 	}
 
 	private static String getExtension(String filePath) {
