@@ -1,20 +1,78 @@
 {
-	"title": "Icons8 Icon Pack",
-	"copyright": "© Icons8 LLC",
-	"url": "https://icons8.com/",
+	"title": "Papirus",
+	"copyright": "Papirus Development Team",
+	"url": "https://github.com/PapirusDevelopmentTeam/papirus-icon-theme",
 	"typeMappings": {
 		"file": "file.png",
 		"directory": "directory.png"
 	},
 	"extensionMappings": [
 		{
-			"map": [ "jpg", "jpeg", "jpe", "gif", "tiff" ],
-			"with": "image.png"
-		},
-		
-		{
-			"map": [ "mp3", "wav", "ogg" ],
-			"with": "music.png"
+			"map": ["bmp", "gif", "ico", "jpeg", "jpg", "pdn", "png", "ps", "psd", "tif", "tiff", "webp"],
+			"with": "image.svg"
+		}, {
+			"map": ["3dm", "3ds", "ai", "dwg", "dxf", "emf", "max", "svg", "vsd", "wmf"],
+			"with": "drawing.svg"
+		}, {
+			"map": ["aac", "aif", "cda", "flac", "iff", "m4a", "mid", "mp3", "ogg", "wav", "wma"],
+			"with": "audio.svg"
+		}, {
+			"map": ["aimppl", "asx", "m3u", "m3u8", "pls", "vlc", "wpl"],
+			"with": "playlist.svg"
+		}, {
+			"map": ["3g2", "3gp", "avi", "flv", "m4v", "mkv", "mov", "mp4", "mpe", "mpeg", "mpg", "ogm", "swf", "vob", "webm", "wmv"],
+			"with": "video.svg"
+		}, {
+			"map": ["srt", "sub", "svcd", "usf"],
+			"with": "subtitle.svg"
+		}, {
+			"map": ["doc", "docm", "docx", "indd", "log", "md", "odf", "odt", "rtf", "tex", "txt", "wpd", "wps"],
+			"with": "text.svg"
+		}, {
+			"map": ["pdf"],
+			"with": "pdf.svg"
+		}, {
+			"map": ["azw", "chm", "epub", "hlp", "mobi"],
+			"with": "ebook.svg"
+		}, {
+			"map": ["htm", "html", "mhtml", "xhtml", "mht"],
+			"with": "web-page.svg"
+		}, {
+			"map": ["key", "odp", "pps", "ppsm", "ppsx", "ppt", "pptm", "pptx"],
+			"with": "presentation.svg"
+		}, {
+			"map": ["csv", "ods", "tsv", "xls", "xlsm", "xlsx"],
+			"with": "spreadsheet.svg"
+		}, {
+			"map": ["accdb", "db", "dbf", "mdb", "odb", "sqlite", "vcf"],
+			"with": "database.svg"
+		}, {
+			"map": ["001", "7z", "bz2", "cab", "deb", "gz", "lha", "pkg", "rar", "rpm", "tar", "tgz", "zip", "zipx"],
+			"with": "archive.svg"
+		}, {
+			"map": ["bin", "cue", "iso", "mdf", "mds", "nrg", "vcd"],
+			"with": "disk-image.svg"
+		}, {
+			"map": ["apk", "app", "bat", "cmd", "com", "csh", "exe", "hta", "ipa", "jar", "msi", "ps1", "run"],
+			"with": "app.svg"
+		}, {
+			"map": ["bas", "c", "class", "coffee", "cpp", "cs", "csproj", "css", "frm", "go", "h", "java", "js", "json", "jsx", "less", "lua", "m", "php", "pl", "py", "rb", "scss", "sh", "sln", "sql", "swift", "ts", "vb", "vbproj", "vbs", "xcodeproj"],
+			"with": "code.svg"
+		}, {
+			"map": ["cfg", "inf", "ini"],
+			"with": "config.svg"
+		}, {
+			"map": ["xml"],
+			"with": "xml.svg"
+		}, {
+			"map": ["fnt", "fon", "otf", "ttf", "woff"],
+			"with": "font.svg"
+		}, {
+			"map": ["lnk", "pif", "url"],
+			"with": "link.svg"
+		}, {
+			"map": ["torrent"],
+			"with": "torrent.svg"
 		}
 	]
 }
