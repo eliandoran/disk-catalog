@@ -11,7 +11,7 @@
 			"map": ["bmp", "gif", "ico", "jpeg", "jpg", "pdn", "png", "ps", "psd", "tif", "tiff", "webp"],
 			"with": "image.svg"
 		}, {
-			"map": ["3dm", "3ds", "ai", "dwg", "dxf", "emf", "max", "svg", "vsd", "wmf"],
+			"map": ["3dm", "3ds", "ai", "dwg", "dxf", "emf", "max", "skp", "svg", "vsd", "wmf"],
 			"with": "drawing.svg"
 		}, {
 			"map": ["aac", "aif", "cda", "flac", "iff", "m4a", "mid", "mp3", "ogg", "wav", "wma"],
