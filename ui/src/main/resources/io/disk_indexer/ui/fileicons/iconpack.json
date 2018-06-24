@@ -3,8 +3,8 @@
 	"copyright": "Papirus Development Team",
 	"url": "https://github.com/PapirusDevelopmentTeam/papirus-icon-theme",
 	"typeMappings": {
-		"file": "file.png",
-		"directory": "directory.png"
+		"file": "file.svg",
+		"directory": "directory.svg"
 	},
 	"extensionMappings": [
 		{
