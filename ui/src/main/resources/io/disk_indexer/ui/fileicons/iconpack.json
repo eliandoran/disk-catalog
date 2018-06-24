@@ -56,7 +56,7 @@
 			"map": ["apk", "app", "bat", "cmd", "com", "csh", "exe", "hta", "ipa", "jar", "msi", "ps1", "run"],
 			"with": "app.svg"
 		}, {
-			"map": ["bas", "c", "class", "coffee", "cpp", "cs", "csproj", "css", "dfm", "dpr", "frm", "go", "h", "java", "js", "json", "jsx", "less", "lua", "m", "pas", "php", "pl", "proj", "py", "rb", "scss", "sh", "sln", "sql", "swift", "ts", "vb", "vbproj", "vbs", "xcodeproj"],
+			"map": ["bas", "c", "class", "coffee", "cpp", "cs", "csproj", "css", "dfm", "dpr", "frm", "go", "h", "java", "js", "json", "jsx", "less", "lua", "m", "pas", "php", "pl", "proj", "py", "rb", "rc", "scss", "sh", "sln", "sql", "swift", "ts", "vb", "vbproj", "vbs", "xcodeproj"],
 			"with": "code.svg"
 		}, {
 			"map": ["cfg", "inf", "ini"],
